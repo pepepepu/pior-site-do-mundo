@@ -38,6 +38,7 @@ const SampleInterface = styled.div<{ $bg: string; $blurred?: boolean }>`
   max-width: 560px;
   background-color: ${({ $bg }) => $bg};
   border-radius: 32px;
+  padding: 24px 28px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -54,19 +55,19 @@ const MetaRow = styled.div`
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 4px 0;
   font-size: 15px;
   font-weight: 700;
 `;
 
 const MeasureWrap = styled.div`
   display: flex;
+  align-items: center;
   justify-content: center;
   overflow: hidden;
 `;
 
 const MeasurePill = styled.div<{ $bg: string; $fg: string }>`
-  padding: 8px 18px;
+  padding: 7px 16px;
   border-radius: 999px;
   background-color: ${({ $bg }) => $bg};
   color: ${({ $fg }) => $fg};
@@ -110,16 +111,18 @@ export const Slide2_2_Grid8pt: React.FC = () => {
         ease: 'power4.out',
       });
 
-      gsap.set('.g8-card', { padding: 18, gap: 8 });
-      gsap.set('.g8-cluster', { gap: 6 });
+      gsap.set('.g8-card-real', { gap: 4 });
+      gsap.set('.g8-card-blur', { gap: 6 });
+      gsap.set('.g8-cluster', { gap: 4 });
       gsap.set('.g8-measure-wrap', { height: 0, opacity: 0 });
-      gsap.set('.g8-measure', { scale: 0.88, y: 6 });
+      gsap.set('.g8-measure', { scale: 0.9, y: 6 });
 
       const tl = gsap.timeline({ paused: true });
-      tl.to('.g8-card', { padding: 36, gap: 28, duration: 0.9, ease: 'power3.inOut' }, 0)
-        .to('.g8-cluster', { gap: 16, duration: 0.85, ease: 'power3.inOut' }, 0.05)
-        .to('.g8-measure-wrap', { height: 38, opacity: 1, duration: 0.65, ease: 'power3.inOut' }, 0.2)
-        .to('.g8-measure', { scale: 1, y: 0, duration: 0.55, ease: 'power4.out' }, 0.35);
+      tl.to('.g8-card-real', { gap: 20, duration: 0.85, ease: 'power3.inOut' }, 0)
+        .to('.g8-card-blur', { gap: 40, duration: 0.85, ease: 'power3.inOut' }, 0)
+        .to('.g8-cluster', { gap: 16, duration: 0.85, ease: 'power3.inOut' }, 0.04)
+        .to('.g8-measure-wrap', { height: 38, opacity: 1, duration: 0.65, ease: 'power3.inOut' }, 0.16)
+        .to('.g8-measure', { scale: 1, y: 0, duration: 0.55, ease: 'power4.out' }, 0.3);
 
       demoTlRef.current = tl;
     }, rootRef);
@@ -143,7 +146,7 @@ export const Slide2_2_Grid8pt: React.FC = () => {
       {showMeasures && (
         <MeasureWrap className="g8-measure-wrap">
           <MeasurePill className="g8-measure" $bg={palette.container} $fg={palette.primary}>
-            Gap entre grupos: 32px (4 × 8pt) • Padding externo: 36px
+            Gap interno: 16px (2 × 8pt) • Gap entre grupos: 32px (4 × 8pt)
           </MeasurePill>
         </MeasureWrap>
       )}
@@ -196,20 +199,20 @@ export const Slide2_2_Grid8pt: React.FC = () => {
       </SlideHeader>
 
       <DemoRow>
-        <StageBox className="g8-in" $bg={palette.container} $radius="38px" $padding="32px">
+        <StageBox className="g8-in" $bg={palette.container} $radius="38px" $padding="28px">
           <EyebrowPill $bg={palette.surfaceLowest} $fg={palette.ink} style={{ alignSelf: 'center' }}>
             Interface real
           </EyebrowPill>
-          <SampleInterface className="g8-card" $bg={palette.surfaceLowest}>
+          <SampleInterface className="g8-card-real" $bg={palette.surfaceLowest}>
             {renderCardBody(true)}
           </SampleInterface>
         </StageBox>
 
-        <StageBox className="g8-in" $bg={palette.containerHigh} $radius="38px" $padding="32px">
+        <StageBox className="g8-in" $bg={palette.containerHigh} $radius="38px" $padding="28px">
           <EyebrowPill $bg={palette.primary} $fg={palette.onPrimary} style={{ alignSelf: 'center' }}>
             Teste do Borrão (8px)
           </EyebrowPill>
-          <SampleInterface className="g8-card" $bg={palette.surfaceLowest} $blurred>
+          <SampleInterface className="g8-card-blur" $bg={palette.surfaceLowest} $blurred>
             {renderCardBody(false)}
           </SampleInterface>
           <div style={{ maxWidth: '36ch', textAlign: 'center' }}>
