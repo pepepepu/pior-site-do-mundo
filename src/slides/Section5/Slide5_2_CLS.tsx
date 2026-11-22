@@ -1,6 +1,6 @@
 import gsap from 'gsap';
 import React, { useEffect, useRef, useState } from 'react';
-import { FiAlertTriangle, FiArrowDown, FiCheckCircle, FiMousePointer } from 'react-icons/fi';
+import { FiAlertTriangle, FiCheckCircle, FiMousePointer } from 'react-icons/fi';
 import styled from 'styled-components';
 import { AnimatedStateChip } from '../../components/AnimatedStateChip';
 import { CrossfadeSlot } from '../../components/CrossfadeSlot';
@@ -8,7 +8,6 @@ import { MaterialShapes } from '../../components/MaterialShapes';
 import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
 import {
   EyebrowPill,
-  MetricBadge,
   SlideCanvas,
   SlideHeader,
   SlideTitle,
@@ -16,70 +15,146 @@ import {
 } from '../../styles/MaterialSurface';
 import { materialPalettes } from '../../theme/materialPalettes';
 
-const Layout = styled.div`
+const CompareGrid = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 24px;
   position: relative;
   z-index: 4;
   min-height: 0;
 `;
 
-const BrowserMock = styled(TonalCard)`
+const BrowserCard = styled(TonalCard)`
   display: flex;
   flex-direction: column;
-  padding: 28px 30px;
-  position: relative;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 26px 28px;
+  min-width: 0;
 `;
 
-const AsyncSlot = styled.div`
-  width: 100%;
-  height: 76px;
-  margin-bottom: 16px;
-  border-radius: 24px;
-  overflow: hidden;
+const CardTop = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
-  padding: 0 24px;
+  gap: 12px;
   flex-shrink: 0;
-  border-width: 2px;
-  border-style: dashed;
-  border-color: transparent;
 `;
 
-const ShiftStrip = styled.div`
-  width: 100%;
-  height: 36px;
-  margin-bottom: 14px;
-  display: flex;
+const ScorePill = styled.span`
+  width: fit-content;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  white-space: nowrap;
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+`;
+
+const MockViewport = styled.div`
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 312px;
+`;
+
+const BadBannerSlot = styled.div`
+  width: 100%;
+  height: 0px;
+  margin-bottom: 0px;
+  padding: 0;
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+  opacity: 0;
+  flex-shrink: 0;
+`;
+
+const GoodBannerSlot = styled.div<{ $bg: string; $borderColor: string }>`
+  width: 100%;
+  height: 54px;
+  margin-bottom: 12px;
+  border-radius: 18px;
+  background-color: ${({ $bg }) => $bg};
+  border: 2px dashed ${({ $borderColor }) => $borderColor};
+  position: relative;
   overflow: hidden;
   flex-shrink: 0;
 `;
 
-const FormBlock = styled.div<{ $bg: string }>`
-  border-radius: 30px;
+const BannerInner = styled.div<{ $bg: string; $fg: string }>`
+  width: 100%;
+  height: 54px;
+  padding: 0 18px;
   background-color: ${({ $bg }) => $bg};
-  padding: 26px 30px;
+  color: ${({ $fg }) => $fg};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 14.5px;
+  font-weight: 800;
+`;
+
+const ReservedPlaceholder = styled.div<{ $color: string }>`
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: ${({ $color }) => $color};
+`;
+
+const GoodBannerFill = styled.div`
+  position: absolute;
+  inset: 0;
+`;
+
+const FormBlock = styled.div<{ $bg: string }>`
+  border-radius: 26px;
+  background-color: ${({ $bg }) => $bg};
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+`;
+
+const FormTitle = styled.h4`
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 28px;
+  height: 28px;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const FormLead = styled.p<{ $color: string }>`
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 22px;
+  height: 22px;
+  margin-bottom: 18px;
+  color: ${({ $color }) => $color};
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const ActionStack = styled.div`
-  position: relative;
   display: flex;
   flex-direction: column;
   gap: 14px;
-  max-width: 340px;
 `;
 
 const MockPill = styled.div<{ $bg: string; $fg: string }>`
-  height: 54px;
+  height: 52px;
   border-radius: 999px;
   background-color: ${({ $bg }) => $bg};
   color: ${({ $fg }) => $fg};
@@ -88,16 +163,16 @@ const MockPill = styled.div<{ $bg: string; $fg: string }>`
   justify-content: center;
   gap: 10px;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: 16px;
+  font-size: 15.5px;
   font-weight: 800;
   outline: 3px solid transparent;
   outline-offset: 3px;
 `;
 
-const CursorPointer = styled.div<{ $bg: string; $fg: string }>`
+const CursorPointer = styled.div<{ $top: number; $bg: string; $fg: string }>`
   position: absolute;
-  top: 5px;
-  right: -22px;
+  top: ${({ $top }) => `${$top}px`};
+  right: 42px;
   width: 44px;
   height: 44px;
   border-radius: 22px;
@@ -110,9 +185,27 @@ const CursorPointer = styled.div<{ $bg: string; $fg: string }>`
   pointer-events: none;
 `;
 
+const ClickRipple = styled.div<{ $color: string }>`
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 3px solid ${({ $color }) => $color};
+  opacity: 0;
+  pointer-events: none;
+`;
+
+const FooterNote = styled.div<{ $bg: string }>`
+  border-radius: 20px;
+  padding: 14px 18px;
+  background-color: ${({ $bg }) => $bg};
+  font-size: 14.5px;
+  font-weight: 700;
+  line-height: 1.4;
+`;
+
 export const Slide5_2_CLS: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [clsValue, setClsValue] = useState(0.268);
+  const [badCls, setBadCls] = useState(0);
   const { demoTlRef, isFixed } = useSpaceTimeline();
   const palette = materialPalettes.section5;
 
@@ -126,114 +219,123 @@ export const Slide5_2_CLS: React.FC = () => {
         ease: 'power4.out',
       });
 
-      const scoreProxy = { val: 0.268 };
+      const scoreProxy = { val: 0 };
 
-      gsap.set('.cls-slot', {
-        backgroundColor: palette.dangerContainer,
-        borderColor: 'rgba(0, 104, 116, 0)',
+      gsap.set('.bad-banner-slot', { height: 0, marginBottom: 0, opacity: 0 });
+      gsap.set('.good-banner-fill', { opacity: 0, y: 6 });
+      gsap.set('.good-reserved-text', { opacity: 1 });
+      gsap.set('.bad-score-pill', {
+        backgroundColor: palette.container,
+        color: palette.ink,
       });
-      gsap.set('.cls-shift-strip', {
-        height: 36,
-        marginBottom: 14,
-        opacity: 1,
-      });
-      gsap.set('.cls-cancel-btn', {
-        outlineColor: palette.danger,
-        scale: 1,
-      });
-      gsap.set('.cls-confirm-btn', {
-        outlineColor: 'rgba(0, 104, 116, 0)',
-        scale: 1,
-      });
-      gsap.set('.cls-cursor', { y: 0 });
-      gsap.set('.cls-score-card', {
-        backgroundColor: palette.danger,
-        color: palette.onPrimary,
-      });
+      gsap.set('.bad-cancel-btn', { outlineColor: 'rgba(197, 34, 31, 0)', x: 0 });
+      gsap.set('.good-confirm-btn', { outlineColor: 'rgba(0, 31, 36, 0)', scale: 1 });
+      gsap.set('.cls-ripple-bad, .cls-ripple-good', { scale: 0.85, opacity: 0 });
 
       const tl = gsap.timeline({ paused: true });
+
       tl.to(
-        scoreProxy,
+        '.bad-banner-slot',
         {
-          val: 0,
-          duration: 0.78,
-          ease: 'power3.inOut',
-          onUpdate: () => setClsValue(scoreProxy.val),
+          height: 54,
+          marginBottom: 12,
+          opacity: 1,
+          duration: 0.36,
+          ease: 'power3.out',
         },
         0
       )
         .to(
-          '.cls-slot',
+          scoreProxy,
           {
-            backgroundColor: palette.containerHigh,
-            borderColor: palette.primary,
-            duration: 0.65,
-            ease: 'power3.inOut',
+            val: 0.268,
+            duration: 0.36,
+            ease: 'power2.out',
+            onUpdate: () => setBadCls(scoreProxy.val),
           },
           0
         )
         .to(
-          '.cls-shift-strip',
+          '.bad-score-pill',
           {
-            height: 0,
-            marginBottom: 0,
-            opacity: 0,
-            duration: 0.65,
-            ease: 'power3.inOut',
-          },
-          0
-        )
-        .to(
-          '.cls-cancel-btn',
-          {
-            outlineColor: 'rgba(197, 34, 31, 0)',
-            duration: 0.4,
+            backgroundColor: palette.danger,
+            color: palette.onPrimary,
+            duration: 0.32,
             ease: 'power2.out',
           },
-          0.05
+          0
         )
         .to(
-          '.cls-cursor',
+          '.good-reserved-text',
           {
-            y: 68,
-            duration: 0.75,
-            ease: 'power3.inOut',
+            opacity: 0,
+            duration: 0.22,
+            ease: 'power2.out',
           },
-          0.1
+          0
         )
         .to(
-          '.cls-confirm-btn',
+          '.good-banner-fill',
           {
-            outlineColor: palette.ink,
-            scale: 1.03,
-            duration: 0.4,
+            opacity: 1,
+            y: 0,
+            duration: 0.36,
             ease: 'power3.out',
           },
-          0.55
+          0.06
         )
         .to(
-          '.cls-score-card',
+          '.cls-cursor-bad, .cls-cursor-good',
           {
-            backgroundColor: palette.primary,
-            color: palette.onPrimary,
-            duration: 0.65,
-            ease: 'power3.inOut',
+            scale: 0.82,
+            duration: 0.1,
+            yoyo: true,
+            repeat: 1,
+            ease: 'power2.inOut',
           },
-          0.05
+          0.38
+        )
+        .fromTo(
+          '.cls-ripple-bad, .cls-ripple-good',
+          { scale: 0.85, opacity: 0.9 },
+          { scale: 2.1, opacity: 0, duration: 0.5, ease: 'power2.out' },
+          0.38
+        )
+        .to(
+          '.bad-cancel-btn',
+          {
+            outlineColor: palette.danger,
+            duration: 0.25,
+            ease: 'power2.out',
+          },
+          0.38
+        )
+        .to(
+          '.bad-cancel-btn',
+          {
+            x: 8,
+            duration: 0.06,
+            repeat: 5,
+            yoyo: true,
+            ease: 'power1.inOut',
+          },
+          0.4
+        )
+        .to(
+          '.good-confirm-btn',
+          {
+            outlineColor: palette.ink,
+            scale: 1.02,
+            duration: 0.28,
+            ease: 'power3.out',
+          },
+          0.38
         );
 
       demoTlRef.current = tl;
     }, rootRef);
     return () => ctx.revert();
-  }, [
-    demoTlRef,
-    palette.containerHigh,
-    palette.danger,
-    palette.dangerContainer,
-    palette.ink,
-    palette.onPrimary,
-    palette.primary,
-  ]);
+  }, [demoTlRef, palette.container, palette.danger, palette.ink, palette.onPrimary]);
 
   return (
     <SlideCanvas ref={rootRef} $palette={palette}>
@@ -252,108 +354,137 @@ export const Slide5_2_CLS: React.FC = () => {
         <AnimatedStateChip
           className="s52-in"
           active={isFixed}
-          badText="Sem min-height: botão foge sob o cursor"
-          goodText="Espaço reservado: CLS = 0.000 garantido"
-          badIcon={<FiAlertTriangle size={18} />}
+          badText="Antes do banner: ambos em CLS 0.000"
+          goodText="Banner chegou: salto de 66px vs. 0px"
+          badIcon={<FiMousePointer size={17} />}
           goodIcon={<FiCheckCircle size={18} />}
-          badBg={palette.dangerContainer}
-          badFg={palette.dangerInk}
+          badBg={palette.container}
+          badFg={palette.ink}
           goodBg={palette.successContainer}
           goodFg={palette.successInk}
         />
       </SlideHeader>
 
-      <Layout>
-        <BrowserMock className="s52-in" $bg={palette.surfaceLowest} $radius="38px">
-          <AsyncSlot className="cls-slot">
+      <CompareGrid>
+        <BrowserCard className="s52-in" $bg={palette.surfaceLowest} $radius="36px">
+          <CardTop>
+            <h3 style={{ fontSize: 20, fontWeight: 800 }}>Sem altura reservada</h3>
+            <ScorePill className="bad-score-pill">CLS {badCls.toFixed(3)}</ScorePill>
+          </CardTop>
+
+          <MockViewport>
+            <BadBannerSlot className="bad-banner-slot">
+              <BannerInner $bg={palette.dangerContainer} $fg={palette.dangerInk}>
+                <span>Aviso tardio injetado no topo</span>
+                <EyebrowPill $bg={palette.surfaceLowest} $fg={palette.dangerInk} style={{ padding: '4px 12px', fontSize: 12 }}>
+                  +66px
+                </EyebrowPill>
+              </BannerInner>
+            </BadBannerSlot>
+
+            <FormBlock $bg={palette.surface}>
+              <FormTitle>Finalizar cadastro na SEMAC</FormTitle>
+              <FormLead $color={palette.muted}>
+                Confira sua vaga e escolha a ação desejada.
+              </FormLead>
+              <ActionStack>
+                <MockPill className="bad-cancel-btn" $bg={palette.dangerContainer} $fg={palette.dangerInk}>
+                  <FiAlertTriangle size={17} />
+                  <span>Cancelar conta</span>
+                </MockPill>
+                <MockPill $bg={palette.primary} $fg={palette.onPrimary}>
+                  <FiCheckCircle size={17} />
+                  <span>Confirmar inscrição</span>
+                </MockPill>
+              </ActionStack>
+            </FormBlock>
+
+            <CursorPointer className="cls-cursor-bad" $top={168} $bg={palette.ink} $fg={palette.surfaceLowest}>
+              <ClickRipple className="cls-ripple-bad" $color={palette.danger} />
+              <FiMousePointer size={19} />
+            </CursorPointer>
+          </MockViewport>
+
+          <FooterNote $bg={palette.surface}>
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <span style={{ fontSize: 16, fontWeight: 800, color: palette.dangerInk }}>
-                  Banner assíncrono chegou sem altura reservada
+                <span style={{ color: palette.muted }}>
+                  Cursor pronto em &ldquo;Confirmar inscrição&rdquo; antes do banner carregar.
                 </span>
               }
               good={
-                <span style={{ fontSize: 16, fontWeight: 800, color: palette.ink }}>
-                  Espaço reservado previamente (min-height: 76px)
+                <span style={{ color: palette.danger }}>
+                  O banner empurrou o layout e o clique acertou &ldquo;Cancelar conta&rdquo; por acidente.
                 </span>
               }
             />
-            <EyebrowPill $bg={palette.surfaceLowest} $fg={palette.ink}>
-              76px
-            </EyebrowPill>
-          </AsyncSlot>
+          </FooterNote>
+        </BrowserCard>
 
-          <ShiftStrip className="cls-shift-strip">
-            <EyebrowPill $bg={palette.dangerContainer} $fg={palette.dangerInk}>
-              <FiArrowDown size={15} />
-              <span>Layout inteiro empurrado +76px no instante do clique</span>
-            </EyebrowPill>
-          </ShiftStrip>
+        <BrowserCard className="s52-in" $bg={palette.container} $radius="36px">
+          <CardTop>
+            <h3 style={{ fontSize: 20, fontWeight: 800 }}>Com min-height reservado</h3>
+            <ScorePill style={{ backgroundColor: palette.primary, color: palette.onPrimary }}>
+              CLS 0.000
+            </ScorePill>
+          </CardTop>
 
-          <FormBlock $bg={palette.surface}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <h3 style={{ fontSize: 24, fontWeight: 800 }}>Finalizar cadastro na SEMAC</h3>
-              <p style={{ fontSize: 15.5, color: palette.muted }}>
-                Confira sua vaga e escolha a ação desejada abaixo.
-              </p>
-            </div>
+          <MockViewport>
+            <GoodBannerSlot $bg={palette.surface} $borderColor={palette.primary}>
+              <ReservedPlaceholder className="good-reserved-text" $color={palette.primary}>
+                Espaço reservado (min-height: 54px)
+              </ReservedPlaceholder>
+              <GoodBannerFill className="good-banner-fill">
+                <BannerInner $bg={palette.containerHigh} $fg={palette.ink}>
+                  <span>Aviso carregado no espaço reservado</span>
+                  <EyebrowPill $bg={palette.surfaceLowest} $fg={palette.primary} style={{ padding: '4px 12px', fontSize: 12 }}>
+                    0px shift
+                  </EyebrowPill>
+                </BannerInner>
+              </GoodBannerFill>
+            </GoodBannerSlot>
 
-            <ActionStack>
-              <MockPill className="cls-cancel-btn" $bg={palette.dangerContainer} $fg={palette.dangerInk}>
-                <FiAlertTriangle size={18} />
-                <span>Cancelar conta</span>
-              </MockPill>
-              <MockPill className="cls-confirm-btn" $bg={palette.primary} $fg={palette.onPrimary}>
-                <FiCheckCircle size={18} />
-                <span>Confirmar inscrição</span>
-              </MockPill>
-              <CursorPointer className="cls-cursor" $bg={palette.ink} $fg={palette.surfaceLowest}>
-                <FiMousePointer size={19} />
-              </CursorPointer>
-            </ActionStack>
-          </FormBlock>
-        </BrowserMock>
+            <FormBlock $bg={palette.surfaceLowest}>
+              <FormTitle>Finalizar cadastro na SEMAC</FormTitle>
+              <FormLead $color={palette.muted}>
+                Confira sua vaga e escolha a ação desejada.
+              </FormLead>
+              <ActionStack>
+                <MockPill $bg={palette.dangerContainer} $fg={palette.dangerInk}>
+                  <FiAlertTriangle size={17} />
+                  <span>Cancelar conta</span>
+                </MockPill>
+                <MockPill className="good-confirm-btn" $bg={palette.primary} $fg={palette.onPrimary}>
+                  <FiCheckCircle size={17} />
+                  <span>Confirmar inscrição</span>
+                </MockPill>
+              </ActionStack>
+            </FormBlock>
 
-        <TonalCard
-          className="s52-in"
-          $bg={palette.container}
-          $radius="36px"
-          $padding="26px"
-          style={{ display: 'flex', flexDirection: 'column', gap: 16, minWidth: 0 }}
-        >
-          <MetricBadge className="cls-score-card" $bg={palette.danger} $fg={palette.onPrimary}>
-            <span style={{ fontSize: 14, fontWeight: 600, opacity: 0.88 }}>Pontuação CLS</span>
-            <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 52, fontWeight: 800, lineHeight: 1 }}>
-              {clsValue.toFixed(3)}
-            </strong>
-          </MetricBadge>
+            <CursorPointer className="cls-cursor-good" $top={234} $bg={palette.ink} $fg={palette.surfaceLowest}>
+              <ClickRipple className="cls-ripple-good" $color={palette.primary} />
+              <FiMousePointer size={19} />
+            </CursorPointer>
+          </MockViewport>
 
-          <MetricBadge $bg={palette.surfaceLowest} $fg={palette.ink} style={{ flex: 1, justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13.5, fontWeight: 700, color: palette.primary }}>
-              O que aconteceu na tela
-            </span>
+          <FooterNote $bg={palette.surfaceLowest}>
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <p style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.45, color: palette.dangerInk }}>
-                  Sem altura reservada, o banner empurrou o formulário e o clique acertou
-                  &ldquo;Cancelar conta&rdquo; por acidente.
-                </p>
+                <span style={{ color: palette.muted }}>
+                  Altura do banner já reservada previamente; cursor em &ldquo;Confirmar inscrição&rdquo;.
+                </span>
               }
               good={
-                <p style={{ fontSize: 16, fontWeight: 700, lineHeight: 1.45, color: palette.primary }}>
-                  Com min-height reservado, o banner preenche seu espaço sem mover 1 pixel e o
-                  clique acerta &ldquo;Confirmar inscrição&rdquo;.
-                </p>
+                <span style={{ color: palette.primary }}>
+                  O banner entrou sem mover 1 pixel e o clique confirmou a inscrição com segurança.
+                </span>
               }
             />
-            <span style={{ fontSize: 14, color: palette.muted }}>
-              Use min-height em banners e aspect-ratio em imagens e vídeos para zerar o deslocamento.
-            </span>
-          </MetricBadge>
-        </TonalCard>
-      </Layout>
+          </FooterNote>
+        </BrowserCard>
+      </CompareGrid>
     </SlideCanvas>
   );
 };

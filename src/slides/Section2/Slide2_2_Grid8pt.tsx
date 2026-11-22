@@ -48,6 +48,7 @@ const SampleInterface = styled.div<{ $bg: string; $blurred?: boolean }>`
 const ContentCluster = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 8px;
 `;
 
 const MetaRow = styled.div`
@@ -64,6 +65,7 @@ const MeasureWrap = styled.div`
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  margin: 8px 0 0;
 `;
 
 const MeasurePill = styled.div<{ $bg: string; $fg: string }>`
