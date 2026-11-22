@@ -19,7 +19,7 @@ import { materialPalettes } from '../../theme/materialPalettes';
 const Grid = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1.35fr 0.65fr;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -31,7 +31,8 @@ const DemoCardWrap = styled(TonalCard)`
   flex-direction: column;
   justify-content: space-between;
   gap: 22px;
-  overflow: visible;
+  min-width: 0;
+  overflow: hidden;
 `;
 
 const ProjectSurface = styled.div<{ $bg: string }>`
@@ -42,6 +43,15 @@ const ProjectSurface = styled.div<{ $bg: string }>`
   flex-direction: column;
   gap: 22px;
   position: relative;
+  min-width: 0;
+  overflow: visible;
+`;
+
+const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-width: 0;
 `;
 
 const AvatarBox = styled.div`
@@ -56,17 +66,40 @@ const AvatarBox = styled.div`
   flex-shrink: 0;
 `;
 
+const TextColumn = styled.div`
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const TitleViewport = styled.div`
+  position: relative;
+  width: 100%;
+  height: 60px;
+`;
+
 const OverflowTitle = styled.h3`
-  font-size: 25px;
+  position: absolute;
+  top: 6px;
+  left: 0;
+  font-size: 24px;
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.2;
   white-space: nowrap;
+  pointer-events: none;
 `;
 
 const ClampedTitle = styled.h3`
-  font-size: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  font-size: 24px;
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.22;
   overflow-wrap: anywhere;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -77,7 +110,7 @@ const ClampedTitle = styled.h3`
 
 const ChipsArea = styled.div`
   position: relative;
-  min-height: 82px;
+  min-height: 98px;
 `;
 
 const ChipsLayer = styled.div`
@@ -107,6 +140,8 @@ export const Slide3_4_Chaos: React.FC = () => {
         ease: 'power4.out',
       });
 
+      gsap.set('.chaos-title-bad', { opacity: 1, x: 0 });
+      gsap.set('.chaos-title-good', { opacity: 0, y: 10 });
       gsap.set('.chaos-good-chip', { opacity: 0, y: 12, scale: 0.92 });
 
       const tl = gsap.timeline({ paused: true });
@@ -120,6 +155,26 @@ export const Slide3_4_Chaos: React.FC = () => {
         },
         0
       )
+        .to(
+          '.chaos-title-bad',
+          {
+            opacity: 0,
+            x: 18,
+            duration: 0.42,
+            ease: 'power3.inOut',
+          },
+          0
+        )
+        .to(
+          '.chaos-title-good',
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.52,
+            ease: 'power4.out',
+          },
+          0.2
+        )
         .to(
           '.chaos-dup-chip',
           {
@@ -191,7 +246,7 @@ export const Slide3_4_Chaos: React.FC = () => {
       <Grid>
         <DemoCardWrap className="s34-in" $bg={palette.container} $radius="38px" $padding="32px">
           <ProjectSurface $bg={palette.surfaceLowest}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 20, minWidth: 0 }}>
+            <HeaderRow>
               <AvatarBox
                 className="chaos-avatar"
                 style={{ backgroundColor: palette.dangerContainer, color: palette.dangerInk }}
@@ -205,17 +260,21 @@ export const Slide3_4_Chaos: React.FC = () => {
                 />
               </AvatarBox>
 
-              <div style={{ minWidth: 0, flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
-                <CrossfadeSlot
-                  active={isFixed}
-                  bad={<OverflowTitle>{GIANT_WORD}</OverflowTitle>}
-                  good={<ClampedTitle>{GIANT_WORD}</ClampedTitle>}
-                />
+              <TextColumn>
+                <TitleViewport>
+                  <OverflowTitle className="chaos-title-bad" style={{ color: palette.dangerInk }}>
+                    {GIANT_WORD}
+                  </OverflowTitle>
+                  <ClampedTitle className="chaos-title-good" style={{ color: palette.ink }}>
+                    {GIANT_WORD}
+                  </ClampedTitle>
+                </TitleViewport>
+
                 <CrossfadeSlot
                   active={isFixed}
                   bad={
                     <span style={{ fontSize: 15, fontWeight: 600, color: palette.danger }}>
-                      Avatar 404 quebrado • largura estourando o container
+                      Avatar 404 quebrado • texto sem espaço vazando fora do card
                     </span>
                   }
                   good={
@@ -224,8 +283,8 @@ export const Slide3_4_Chaos: React.FC = () => {
                     </span>
                   }
                 />
-              </div>
-            </div>
+              </TextColumn>
+            </HeaderRow>
 
             <ChipsArea>
               <ChipsLayer>
@@ -265,7 +324,7 @@ export const Slide3_4_Chaos: React.FC = () => {
           $bg={palette.surfaceLowest}
           $radius="36px"
           $padding="26px"
-          style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+          style={{ display: 'flex', flexDirection: 'column', gap: 16, minWidth: 0 }}
         >
           <MetricBadge $bg={palette.surface} $fg={palette.ink}>
             <span style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}>Quebra de texto</span>

@@ -18,7 +18,7 @@ import { materialPalettes } from '../../theme/materialPalettes';
 const DemoRow = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -30,12 +30,12 @@ const StageBox = styled(TonalCard)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
 `;
 
 const SampleInterface = styled.div<{ $bg: string; $blurred?: boolean }>`
   width: 100%;
-  max-width: 540px;
+  max-width: 560px;
   background-color: ${({ $bg }) => $bg};
   border-radius: 32px;
   display: flex;
@@ -49,13 +49,28 @@ const ContentCluster = styled.div`
   flex-direction: column;
 `;
 
+const MetaRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 4px 0;
+  font-size: 15px;
+  font-weight: 700;
+`;
+
+const MeasureWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+`;
+
 const MeasurePill = styled.div<{ $bg: string; $fg: string }>`
-  align-self: center;
-  padding: 6px 16px;
+  padding: 8px 18px;
   border-radius: 999px;
   background-color: ${({ $bg }) => $bg};
   color: ${({ $fg }) => $fg};
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 700;
   white-space: nowrap;
 `;
@@ -95,14 +110,16 @@ export const Slide2_2_Grid8pt: React.FC = () => {
         ease: 'power4.out',
       });
 
-      gsap.set('.g8-card', { padding: 14, gap: 6 });
-      gsap.set('.g8-cluster', { gap: 2 });
-      gsap.set('.g8-measure', { opacity: 0, scale: 0.85, y: 6 });
+      gsap.set('.g8-card', { padding: 18, gap: 8 });
+      gsap.set('.g8-cluster', { gap: 6 });
+      gsap.set('.g8-measure-wrap', { height: 0, opacity: 0 });
+      gsap.set('.g8-measure', { scale: 0.88, y: 6 });
 
       const tl = gsap.timeline({ paused: true });
-      tl.to('.g8-card', { padding: 32, gap: 32, duration: 0.9, ease: 'power3.inOut' }, 0)
-        .to('.g8-cluster', { gap: 8, duration: 0.85, ease: 'power3.inOut' }, 0.05)
-        .to('.g8-measure', { opacity: 1, scale: 1, y: 0, duration: 0.55, ease: 'power4.out' }, 0.4);
+      tl.to('.g8-card', { padding: 36, gap: 28, duration: 0.9, ease: 'power3.inOut' }, 0)
+        .to('.g8-cluster', { gap: 16, duration: 0.85, ease: 'power3.inOut' }, 0.05)
+        .to('.g8-measure-wrap', { height: 38, opacity: 1, duration: 0.65, ease: 'power3.inOut' }, 0.2)
+        .to('.g8-measure', { scale: 1, y: 0, duration: 0.55, ease: 'power4.out' }, 0.35);
 
       demoTlRef.current = tl;
     }, rootRef);
@@ -112,28 +129,32 @@ export const Slide2_2_Grid8pt: React.FC = () => {
   const renderCardBody = (showMeasures: boolean) => (
     <>
       <ContentCluster className="g8-cluster">
-        <EyebrowPill $bg={palette.container} $fg={palette.primary} style={{ padding: '6px 14px', fontSize: 13 }}>
+        <EyebrowPill $bg={palette.container} $fg={palette.primary} style={{ padding: '7px 16px', fontSize: 13.5 }}>
           Minicurso • Lab 03
         </EyebrowPill>
-        <h3 style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.12, color: palette.ink }}>
+        <h3 style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.18, color: palette.ink }}>
           Proximidade cria grupos sem precisar de linhas
         </h3>
-        <p style={{ fontSize: 15.5, lineHeight: 1.48, color: palette.muted }}>
-          Elementos relacionados ficam juntos a 8px; blocos independentes respiram a 32px.
+        <p style={{ fontSize: 15.5, lineHeight: 1.55, color: palette.muted }}>
+          Elementos relacionados ficam juntos em 16px; blocos independentes respiram com 32px de separação.
         </p>
       </ContentCluster>
 
       {showMeasures && (
-        <MeasurePill className="g8-measure" $bg={palette.container} $fg={palette.primary}>
-          Gap entre grupos: 32px (4 × 8pt) • Padding externo: 32px
-        </MeasurePill>
+        <MeasureWrap className="g8-measure-wrap">
+          <MeasurePill className="g8-measure" $bg={palette.container} $fg={palette.primary}>
+            Gap entre grupos: 32px (4 × 8pt) • Padding externo: 36px
+          </MeasurePill>
+        </MeasureWrap>
       )}
 
       <ContentCluster className="g8-cluster">
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 14.5, fontWeight: 700, color: palette.ink }}>
+        <MetaRow style={{ color: palette.ink }}>
           <span>Enzo Maia &amp; Pedro Paulo</span>
-          <span style={{ color: palette.primary }}>40 vagas abertas</span>
-        </div>
+          <EyebrowPill $bg={palette.surface} $fg={palette.primary} style={{ padding: '5px 14px', fontSize: 13 }}>
+            40 vagas abertas
+          </EyebrowPill>
+        </MetaRow>
         <MockActionRow>
           <MockPillBtn $bg={palette.primary} $fg={palette.onPrimary} $flex={1}>
             Confirmar presença
