@@ -12,14 +12,14 @@ const CenterStage = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 40px;
+  gap: 28px;
   position: relative;
   z-index: 4;
 `;
 
 const QrOuterCard = styled(TonalCard)`
   border-radius: 44px;
-  padding: 28px;
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,10 +28,27 @@ const QrOuterCard = styled(TonalCard)`
 const QrWhiteBox = styled.div`
   background-color: #ffffff;
   border-radius: 32px;
-  padding: 28px;
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const UrlPill = styled.a<{ $bg: string; $fg: string }>`
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  border-radius: 999px;
+  background-color: ${({ $bg }) => $bg};
+  color: ${({ $fg }) => $fg};
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(16px, 1.5vw, 22px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  white-space: nowrap;
 `;
 
 const CHALLENGE_URL = "https://o-pior-site-do-mundo-todo.vercel.app/";
@@ -63,7 +80,7 @@ export const Slide02_Challenge: React.FC = () => {
           <QrWhiteBox>
             <QRCodeSVG
               value={CHALLENGE_URL}
-              size={300}
+              size={276}
               bgColor="#FFFFFF"
               fgColor="#1B1C1E"
               level="M"
@@ -71,6 +88,17 @@ export const Slide02_Challenge: React.FC = () => {
             />
           </QrWhiteBox>
         </QrOuterCard>
+
+        <UrlPill
+          className="challenge-fade"
+          href={CHALLENGE_URL}
+          target="_blank"
+          rel="noreferrer"
+          $bg={palette.surfaceLowest}
+          $fg={palette.primary}
+        >
+          {CHALLENGE_URL}
+        </UrlPill>
       </CenterStage>
     </SlideCanvas>
   );
