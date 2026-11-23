@@ -198,7 +198,7 @@ export const Slide01_Hosts: React.FC = () => {
               $radius="32px"
               $padding="26px"
             >
-              <BigNumber style={{ color: palette.ink }}>27</BigNumber>
+              <BigNumber style={{ color: palette.ink }}>28</BigNumber>
               <div style={{ fontSize: 15, fontWeight: 700, marginTop: 6 }}>
                 Telas vivas em tempo real
               </div>

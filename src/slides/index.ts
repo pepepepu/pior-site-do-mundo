@@ -5,7 +5,8 @@ import { Slide02_Challenge } from "./Slide02_Challenge";
 import { Slide1_1_Cover } from "./Section1/Slide1_1_Cover";
 import { Slide1_2_Fitts } from "./Section1/Slide1_2_Fitts";
 import { Slide1_3_Hick } from "./Section1/Slide1_3_Hick";
-import { Slide1_4_JakobMiller } from "./Section1/Slide1_4_JakobMiller";
+import { Slide1_4_Jakob } from "./Section1/Slide1_4_Jakob";
+import { Slide1_5_Miller } from "./Section1/Slide1_5_Miller";
 import { Slide2_1_Cover } from "./Section2/Slide2_1_Cover";
 import { Slide2_2_Grid8pt } from "./Section2/Slide2_2_Grid8pt";
 import { Slide2_3_Typography } from "./Section2/Slide2_3_Typography";
@@ -34,7 +35,8 @@ export const slidesDeck: React.FC[] = [
   Slide1_1_Cover,
   Slide1_2_Fitts,
   Slide1_3_Hick,
-  Slide1_4_JakobMiller,
+  Slide1_4_Jakob,
+  Slide1_5_Miller,
   Slide2_1_Cover,
   Slide2_2_Grid8pt,
   Slide2_3_Typography,
