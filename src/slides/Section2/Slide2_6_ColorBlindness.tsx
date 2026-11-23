@@ -354,8 +354,8 @@ export const Slide2_6_ColorBlindness: React.FC = () => {
                 marginTop: 4,
               }}
             >
-              tem algum grau de daltonismo — são cerca de 300 milhões de pessoas
-              no mundo.
+              tem algum grau de daltonismo (são cerca de 300 milhões de pessoas
+              no mundo).
             </span>
           </MetricBadge>
 
@@ -381,7 +381,7 @@ export const Slide2_6_ColorBlindness: React.FC = () => {
                   }}
                 >
                   Sem texto e sem ícone, vermelho, verde e amarelo viram quase o
-                  mesmo tom — ninguém sabe qual campo errou.
+                  mesmo tom (ninguém sabe qual campo errou).
                 </p>
               }
               good={

@@ -227,7 +227,7 @@ export const Slide2_5_ContrastComfort: React.FC = () => {
                     color: palette.danger,
                   }}
                 >
-                  Baixo contraste — obriga a forçar os olhos para decifrar.
+                  Baixo contraste: obriga a forçar os olhos para decifrar.
                 </span>
               }
               good={
@@ -238,7 +238,7 @@ export const Slide2_5_ContrastComfort: React.FC = () => {
                     color: palette.primary,
                   }}
                 >
-                  Contraste firme — leitura imediata em qualquer celular ou
+                  Contraste firme: leitura imediata em qualquer celular ou
                   telão.
                 </span>
               }
@@ -296,14 +296,14 @@ export const Slide2_5_ContrastComfort: React.FC = () => {
                 <span
                   style={{ fontSize: 14.5, fontWeight: 700, color: "#FF9E9E" }}
                 >
-                  Brilho agressivo — cansa a vista depois de poucos minutos.
+                  Brilho agressivo: cansa a vista depois de poucos minutos.
                 </span>
               }
               good={
                 <span
                   style={{ fontSize: 14.5, fontWeight: 700, color: "#FFB49B" }}
                 >
-                  Tons suavizados — alto contraste sem ofuscar os olhos.
+                  Tons suavizados: alto contraste sem ofuscar os olhos.
                 </span>
               }
             />
