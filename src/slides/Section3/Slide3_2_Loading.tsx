@@ -1,18 +1,18 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
-import styled, { keyframes } from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import styled, { keyframes } from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   SlideCanvas,
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const spin = keyframes`
   from { transform: rotate(0deg); }
@@ -22,7 +22,7 @@ const spin = keyframes`
 const CompareGrid = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -96,7 +96,7 @@ const AvatarSquircle = styled.div<{ $bg: string; $fg: string }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-weight: 800;
   font-size: 16px;
   flex-shrink: 0;
@@ -116,7 +116,12 @@ const ShimmerBar = styled.div<{ $w: string; $h: number; $bg: string }>`
 const Sweep = styled.div`
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.75),
+    transparent
+  );
 `;
 
 const AnchorFooter = styled.div<{ $bg: string; $fg: string }>`
@@ -129,9 +134,21 @@ const AnchorFooter = styled.div<{ $bg: string; $fg: string }>`
 `;
 
 const TALKS = [
-  { code: '01', title: 'Sistemas Visuais na Prática', sub: 'Auditório DComp • 14h00' },
-  { code: '02', title: 'Microinterações com Física Real', sub: 'Laboratório 03 • 16h00' },
-  { code: '03', title: 'Performance e Core Web Vitals', sub: 'CCET Sala 104 • 18h30' },
+  {
+    code: "01",
+    title: "Organizando uma tela bonita",
+    sub: "Auditório DComp • 14h00",
+  },
+  {
+    code: "02",
+    title: "Animações que fazem sentido",
+    sub: "Laboratório 03 • 16h00",
+  },
+  {
+    code: "03",
+    title: "Sites rápidos e acessíveis",
+    sub: "CCET Sala 104 • 18h30",
+  },
 ];
 
 export const Slide3_2_Loading: React.FC = () => {
@@ -141,29 +158,49 @@ export const Slide3_2_Loading: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.s32-in', {
+      gsap.from(".s32-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
       gsap.fromTo(
-        '.m3-shimmer',
+        ".m3-shimmer",
         { xPercent: -120 },
-        { xPercent: 120, duration: 1.05, repeat: -1, ease: 'power1.inOut' }
+        { xPercent: 120, duration: 1.05, repeat: -1, ease: "power1.inOut" },
       );
 
-      gsap.set('.left-loaded', { opacity: 0, y: 12 });
-      gsap.set('.right-loaded', { opacity: 0 });
+      gsap.set(".left-loaded", { opacity: 0, y: 12 });
+      gsap.set(".right-loaded", { opacity: 0 });
 
       const tl = gsap.timeline({ paused: true });
-      tl.to('.left-slot', { height: 270, duration: 0.65, ease: 'power3.inOut' }, 0)
-        .to('.left-spinner', { opacity: 0, duration: 0.35, ease: 'power2.out' }, 0)
-        .to('.left-loaded', { opacity: 1, y: 0, duration: 0.55, ease: 'power4.out' }, 0.25)
-        .to('.right-skeleton', { opacity: 0, duration: 0.48, ease: 'power3.inOut' }, 0.1)
-        .to('.right-loaded', { opacity: 1, duration: 0.55, ease: 'power3.inOut' }, 0.15);
+      tl.to(
+        ".left-slot",
+        { height: 270, duration: 0.65, ease: "power3.inOut" },
+        0,
+      )
+        .to(
+          ".left-spinner",
+          { opacity: 0, duration: 0.35, ease: "power2.out" },
+          0,
+        )
+        .to(
+          ".left-loaded",
+          { opacity: 1, y: 0, duration: 0.55, ease: "power4.out" },
+          0.25,
+        )
+        .to(
+          ".right-skeleton",
+          { opacity: 0, duration: 0.48, ease: "power3.inOut" },
+          0.1,
+        )
+        .to(
+          ".right-loaded",
+          { opacity: 1, duration: 0.55, ease: "power3.inOut" },
+          0.15,
+        );
 
       demoTlRef.current = tl;
     }, rootRef);
@@ -175,20 +212,24 @@ export const Slide3_2_Loading: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="s32-in" $bg={palette.container} $fg={palette.primary}>
-            Ideal vs. Loading
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="s32-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Tela Cheia vs. Tela Carregando
           </EyebrowPill>
           <SlideTitle className="s32-in">
-            Skeleton Screens preservam a geometria da página
+            Esqueletos de carregamento evitam que a tela pule
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="s32-in"
           active={isFixed}
-          badText="Carregando: spinner colapsa a altura"
-          goodText="Carregado: Skeleton manteve 100% da geometria"
+          badText="Bolinha girando encolhe a tela"
+          goodText="Esqueleto manteve tudo no lugar"
           badIcon={<FiAlertCircle size={18} />}
           goodIcon={<FiCheckCircle size={18} />}
           badBg={palette.dangerContainer}
@@ -199,11 +240,24 @@ export const Slide3_2_Loading: React.FC = () => {
       </SlideHeader>
 
       <CompareGrid>
-        <ColumnCard className="s32-in" $bg={palette.surfaceLowest} $radius="36px" $padding="28px">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 20, fontWeight: 800 }}>Spinner central bloqueante</h3>
+        <ColumnCard
+          className="s32-in"
+          $bg={palette.surfaceLowest}
+          $radius="36px"
+          $padding="28px"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{ fontSize: 20, fontWeight: 800 }}>
+              Bolinha girando no meio
+            </h3>
             <EyebrowPill $bg={palette.dangerContainer} $fg={palette.dangerInk}>
-              Salto vertical
+              Tela pula
             </EyebrowPill>
           </div>
 
@@ -211,7 +265,9 @@ export const Slide3_2_Loading: React.FC = () => {
             <OverlayLayer className="left-spinner">
               <SpinnerZone $bg={palette.dangerContainer}>
                 <SpinnerCircle $color={palette.danger} />
-                <span style={{ color: palette.dangerInk }}>Carregando programação...</span>
+                <span style={{ color: palette.dangerInk }}>
+                  Carregando programação...
+                </span>
               </SpinnerZone>
             </OverlayLayer>
 
@@ -219,12 +275,19 @@ export const Slide3_2_Loading: React.FC = () => {
               <CardsStack>
                 {TALKS.map((t) => (
                   <TalkRow key={t.code} $bg={palette.surface}>
-                    <AvatarSquircle $bg={palette.container} $fg={palette.primary}>
+                    <AvatarSquircle
+                      $bg={palette.container}
+                      $fg={palette.primary}
+                    >
                       {t.code}
                     </AvatarSquircle>
                     <div>
-                      <div style={{ fontSize: 16.5, fontWeight: 700 }}>{t.title}</div>
-                      <div style={{ fontSize: 14, color: palette.muted }}>{t.sub}</div>
+                      <div style={{ fontSize: 16.5, fontWeight: 700 }}>
+                        {t.title}
+                      </div>
+                      <div style={{ fontSize: 14, color: palette.muted }}>
+                        {t.sub}
+                      </div>
                     </div>
                   </TalkRow>
                 ))}
@@ -233,15 +296,29 @@ export const Slide3_2_Loading: React.FC = () => {
           </LeftBodySlot>
 
           <AnchorFooter $bg={palette.dangerContainer} $fg={palette.dangerInk}>
-            Rodapé da página — observe este bloco empurrado bruscamente quando os dados chegam.
+            Parte de baixo da página: repare como esse bloco é empurrado de
+            repente quando o conteúdo aparece.
           </AnchorFooter>
         </ColumnCard>
 
-        <ColumnCard className="s32-in" $bg={palette.container} $radius="36px" $padding="28px">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 20, fontWeight: 800 }}>Skeleton Screen tonal</h3>
+        <ColumnCard
+          className="s32-in"
+          $bg={palette.container}
+          $radius="36px"
+          $padding="28px"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{ fontSize: 20, fontWeight: 800 }}>
+              Prévia do formato (esqueleto)
+            </h3>
             <EyebrowPill $bg={palette.primary} $fg={palette.onPrimary}>
-              Estabilidade total
+              Sem pulos
             </EyebrowPill>
           </div>
 
@@ -253,7 +330,14 @@ export const Slide3_2_Loading: React.FC = () => {
                     <AvatarSquircle $bg={palette.container} $fg={palette.ink}>
                       <Sweep className="m3-shimmer" />
                     </AvatarSquircle>
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                    <div
+                      style={{
+                        flex: 1,
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 10,
+                      }}
+                    >
                       <ShimmerBar $w="74%" $h={16} $bg={palette.container}>
                         <Sweep className="m3-shimmer" />
                       </ShimmerBar>
@@ -270,12 +354,19 @@ export const Slide3_2_Loading: React.FC = () => {
               <CardsStack>
                 {TALKS.map((t) => (
                   <TalkRow key={`ok-${t.code}`} $bg={palette.surfaceLowest}>
-                    <AvatarSquircle $bg={palette.primary} $fg={palette.onPrimary}>
+                    <AvatarSquircle
+                      $bg={palette.primary}
+                      $fg={palette.onPrimary}
+                    >
                       {t.code}
                     </AvatarSquircle>
                     <div>
-                      <div style={{ fontSize: 16.5, fontWeight: 700 }}>{t.title}</div>
-                      <div style={{ fontSize: 14, color: palette.muted }}>{t.sub}</div>
+                      <div style={{ fontSize: 16.5, fontWeight: 700 }}>
+                        {t.title}
+                      </div>
+                      <div style={{ fontSize: 14, color: palette.muted }}>
+                        {t.sub}
+                      </div>
                     </div>
                   </TalkRow>
                 ))}
@@ -284,7 +375,8 @@ export const Slide3_2_Loading: React.FC = () => {
           </RightBodySlot>
 
           <AnchorFooter $bg={palette.primary} $fg={palette.onPrimary}>
-            Rodapé da página — permanece imóvel no mesmo pixel do início ao fim.
+            Parte de baixo da página: continua parada no mesmo lugar do começo
+            ao fim.
           </AnchorFooter>
         </ColumnCard>
       </CompareGrid>

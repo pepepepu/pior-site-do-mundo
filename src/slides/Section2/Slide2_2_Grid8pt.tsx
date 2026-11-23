@@ -1,19 +1,19 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { CrossfadeSlot } from '../../components/CrossfadeSlot';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { CrossfadeSlot } from "../../components/CrossfadeSlot";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   SlideCanvas,
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const DemoRow = styled.div`
   flex: 1;
@@ -42,7 +42,7 @@ const SampleInterface = styled.div<{ $bg: string; $blurred?: boolean }>`
   display: flex;
   flex-direction: column;
   position: relative;
-  filter: ${({ $blurred }) => ($blurred ? 'blur(8px)' : 'none')};
+  filter: ${({ $blurred }) => ($blurred ? "blur(8px)" : "none")};
 `;
 
 const ContentCluster = styled.div`
@@ -84,7 +84,7 @@ const MockActionRow = styled.div`
 `;
 
 const MockPillBtn = styled.div<{ $bg: string; $fg: string; $flex?: number }>`
-  flex: ${({ $flex }) => $flex || 'none'};
+  flex: ${({ $flex }) => $flex || "none"};
   height: 48px;
   padding: 0 24px;
   border-radius: 999px;
@@ -93,7 +93,7 @@ const MockPillBtn = styled.div<{ $bg: string; $fg: string; $flex?: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 15px;
   font-weight: 700;
 `;
@@ -105,26 +105,46 @@ export const Slide2_2_Grid8pt: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.g8-in', {
+      gsap.from(".g8-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
-      gsap.set('.g8-card-real', { gap: 4 });
-      gsap.set('.g8-card-blur', { gap: 6 });
-      gsap.set('.g8-cluster', { gap: 4 });
-      gsap.set('.g8-measure-wrap', { height: 0, opacity: 0 });
-      gsap.set('.g8-measure', { scale: 0.9, y: 6 });
+      gsap.set(".g8-card-real", { gap: 4 });
+      gsap.set(".g8-card-blur", { gap: 6 });
+      gsap.set(".g8-cluster", { gap: 4 });
+      gsap.set(".g8-measure-wrap", { height: 0, opacity: 0 });
+      gsap.set(".g8-measure", { scale: 0.9, y: 6 });
 
       const tl = gsap.timeline({ paused: true });
-      tl.to('.g8-card-real', { gap: 20, duration: 0.85, ease: 'power3.inOut' }, 0)
-        .to('.g8-card-blur', { gap: 40, duration: 0.85, ease: 'power3.inOut' }, 0)
-        .to('.g8-cluster', { gap: 16, duration: 0.85, ease: 'power3.inOut' }, 0.04)
-        .to('.g8-measure-wrap', { height: 38, opacity: 1, duration: 0.65, ease: 'power3.inOut' }, 0.16)
-        .to('.g8-measure', { scale: 1, y: 0, duration: 0.55, ease: 'power4.out' }, 0.3);
+      tl.to(
+        ".g8-card-real",
+        { gap: 20, duration: 0.85, ease: "power3.inOut" },
+        0,
+      )
+        .to(
+          ".g8-card-blur",
+          { gap: 40, duration: 0.85, ease: "power3.inOut" },
+          0,
+        )
+        .to(
+          ".g8-cluster",
+          { gap: 16, duration: 0.85, ease: "power3.inOut" },
+          0.04,
+        )
+        .to(
+          ".g8-measure-wrap",
+          { height: 38, opacity: 1, duration: 0.65, ease: "power3.inOut" },
+          0.16,
+        )
+        .to(
+          ".g8-measure",
+          { scale: 1, y: 0, duration: 0.55, ease: "power4.out" },
+          0.3,
+        );
 
       demoTlRef.current = tl;
     }, rootRef);
@@ -134,21 +154,37 @@ export const Slide2_2_Grid8pt: React.FC = () => {
   const renderCardBody = (showMeasures: boolean) => (
     <>
       <ContentCluster className="g8-cluster">
-        <EyebrowPill $bg={palette.container} $fg={palette.primary} style={{ padding: '7px 16px', fontSize: 13.5 }}>
+        <EyebrowPill
+          $bg={palette.container}
+          $fg={palette.primary}
+          style={{ padding: "7px 16px", fontSize: 13.5 }}
+        >
           Minicurso • Lab 03
         </EyebrowPill>
-        <h3 style={{ fontSize: 26, fontWeight: 800, lineHeight: 1.18, color: palette.ink }}>
+        <h3
+          style={{
+            fontSize: 26,
+            fontWeight: 800,
+            lineHeight: 1.18,
+            color: palette.ink,
+          }}
+        >
           Proximidade cria grupos sem precisar de linhas
         </h3>
         <p style={{ fontSize: 15.5, lineHeight: 1.55, color: palette.muted }}>
-          Elementos relacionados ficam juntos em 16px; blocos independentes respiram com 32px de separação.
+          O que faz parte do mesmo assunto fica perto; assuntos diferentes ficam
+          mais afastados.
         </p>
       </ContentCluster>
 
       {showMeasures && (
         <MeasureWrap className="g8-measure-wrap">
-          <MeasurePill className="g8-measure" $bg={palette.container} $fg={palette.primary}>
-            Gap interno: 16px (2 × 8pt) • Gap entre grupos: 32px (4 × 8pt)
+          <MeasurePill
+            className="g8-measure"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Dentro do grupo: 16px • Entre grupos diferentes: 32px
           </MeasurePill>
         </MeasureWrap>
       )}
@@ -156,7 +192,11 @@ export const Slide2_2_Grid8pt: React.FC = () => {
       <ContentCluster className="g8-cluster">
         <MetaRow style={{ color: palette.ink }}>
           <span>Enzo Maia &amp; Pedro Paulo</span>
-          <EyebrowPill $bg={palette.surface} $fg={palette.primary} style={{ padding: '5px 14px', fontSize: 13 }}>
+          <EyebrowPill
+            $bg={palette.surface}
+            $fg={palette.primary}
+            style={{ padding: "5px 14px", fontSize: 13 }}
+          >
             40 vagas abertas
           </EyebrowPill>
         </MetaRow>
@@ -177,20 +217,24 @@ export const Slide2_2_Grid8pt: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="g8-in" $bg={palette.container} $fg={palette.primary}>
-            Grid de 8pt &amp; Lei da Proximidade
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="g8-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Espaçamento e Lei da Proximidade
           </EyebrowPill>
           <SlideTitle className="g8-in">
-            O espaço em branco organiza antes da leitura
+            O espaço em branco organiza antes mesmo da leitura
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="g8-in"
           active={isFixed}
-          badText="Tudo espremido sem hierarquia"
-          goodText="Múltiplos de 8pt + grupos nítidos"
+          badText="Tudo espremido e confuso"
+          goodText="Respiro certo e grupos claros"
           badIcon={<FiAlertCircle size={18} />}
           goodIcon={<FiCheckCircle size={18} />}
           badBg={palette.dangerContainer}
@@ -201,33 +245,60 @@ export const Slide2_2_Grid8pt: React.FC = () => {
       </SlideHeader>
 
       <DemoRow>
-        <StageBox className="g8-in" $bg={palette.container} $radius="38px" $padding="28px">
-          <EyebrowPill $bg={palette.surfaceLowest} $fg={palette.ink} style={{ alignSelf: 'center' }}>
-            Interface real
+        <StageBox
+          className="g8-in"
+          $bg={palette.container}
+          $radius="38px"
+          $padding="28px"
+        >
+          <EyebrowPill
+            $bg={palette.surfaceLowest}
+            $fg={palette.ink}
+            style={{ alignSelf: "center" }}
+          >
+            Como a tela aparece
           </EyebrowPill>
           <SampleInterface className="g8-card-real" $bg={palette.surfaceLowest}>
             {renderCardBody(true)}
           </SampleInterface>
         </StageBox>
 
-        <StageBox className="g8-in" $bg={palette.containerHigh} $radius="38px" $padding="28px">
-          <EyebrowPill $bg={palette.primary} $fg={palette.onPrimary} style={{ alignSelf: 'center' }}>
-            Teste do Borrão (8px)
+        <StageBox
+          className="g8-in"
+          $bg={palette.containerHigh}
+          $radius="38px"
+          $padding="28px"
+        >
+          <EyebrowPill
+            $bg={palette.primary}
+            $fg={palette.onPrimary}
+            style={{ alignSelf: "center" }}
+          >
+            Teste do Borrão
           </EyebrowPill>
-          <SampleInterface className="g8-card-blur" $bg={palette.surfaceLowest} $blurred>
+          <SampleInterface
+            className="g8-card-blur"
+            $bg={palette.surfaceLowest}
+            $blurred
+          >
             {renderCardBody(false)}
           </SampleInterface>
-          <div style={{ maxWidth: '36ch', textAlign: 'center' }}>
+          <div style={{ maxWidth: "36ch", textAlign: "center" }}>
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <p style={{ fontSize: 15, fontWeight: 600, color: palette.ink }}>
-                  No borrão, tudo vira uma única massa cinzenta impossível de decifrar.
+                <p
+                  style={{ fontSize: 15, fontWeight: 600, color: palette.ink }}
+                >
+                  Sem espaço entre os itens, tudo vira um bloco borrado difícil
+                  de entender.
                 </p>
               }
               good={
-                <p style={{ fontSize: 15, fontWeight: 600, color: palette.ink }}>
-                  Mesmo borrado, o olho enxerga imediatamente 2 blocos distintos.
+                <p
+                  style={{ fontSize: 15, fontWeight: 600, color: palette.ink }}
+                >
+                  Mesmo sem ler uma letra, o olho separa claramente os 2 blocos.
                 </p>
               }
             />

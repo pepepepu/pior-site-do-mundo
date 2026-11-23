@@ -1,9 +1,14 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { EyebrowPill, HeroDisplay, SlideCanvas, SlideSubtitle } from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import {
+  EyebrowPill,
+  HeroDisplay,
+  SlideCanvas,
+  SlideSubtitle,
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const CoverContent = styled.div`
   flex: 1;
@@ -31,41 +36,41 @@ export const Slide1_1_Cover: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const drawable = gsap.utils.toArray<SVGGeometryElement>('.s1-draw');
+      const drawable = gsap.utils.toArray<SVGGeometryElement>(".s1-draw");
       drawable.forEach((el) => {
         const len = el.getTotalLength();
         gsap.set(el, { strokeDasharray: len, strokeDashoffset: len });
       });
 
       const tl = gsap.timeline();
-      tl.to('.s1-draw', {
+      tl.to(".s1-draw", {
         strokeDashoffset: 0,
         duration: 1.05,
         stagger: 0.09,
-        ease: 'power3.inOut',
+        ease: "power3.inOut",
       })
         .from(
-          '.s1-target-dot',
+          ".s1-target-dot",
           {
             scale: 0,
             opacity: 0,
-            transformOrigin: 'center center',
+            transformOrigin: "center center",
             duration: 0.65,
             stagger: 0.08,
-            ease: 'elastic.out(1, 0.5)',
+            ease: "elastic.out(1, 0.5)",
           },
-          '-=0.55'
+          "-=0.55",
         )
         .from(
-          '.s1-reveal',
+          ".s1-reveal",
           {
             y: 48,
             opacity: 0,
             duration: 0.78,
             stagger: 0.09,
-            ease: 'power4.out',
+            ease: "power4.out",
           },
-          0.12
+          0.12,
         );
     }, rootRef);
     return () => ctx.revert();
@@ -75,7 +80,10 @@ export const Slide1_1_Cover: React.FC = () => {
     <SlideCanvas ref={rootRef} $palette={palette}>
       <MaterialShapes palette={palette} variant="cover" />
 
-      <CoordinateOverlay viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+      <CoordinateOverlay
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+      >
         <line
           className="s1-draw"
           x1="820"
@@ -134,15 +142,43 @@ export const Slide1_1_Cover: React.FC = () => {
           strokeWidth="4"
           strokeLinecap="round"
         />
-        <circle className="s1-target-dot" cx="1090" cy="470" r="26" fill={palette.primary} />
-        <circle className="s1-target-dot" cx="1090" cy="470" r="10" fill={palette.surfaceLowest} />
-        <circle className="s1-target-dot" cx="890" cy="648" r="12" fill={palette.accent} />
-        <circle className="s1-target-dot" cx="1272" cy="272" r="14" fill={palette.accent} />
+        <circle
+          className="s1-target-dot"
+          cx="1090"
+          cy="470"
+          r="26"
+          fill={palette.primary}
+        />
+        <circle
+          className="s1-target-dot"
+          cx="1090"
+          cy="470"
+          r="10"
+          fill={palette.surfaceLowest}
+        />
+        <circle
+          className="s1-target-dot"
+          cx="890"
+          cy="648"
+          r="12"
+          fill={palette.accent}
+        />
+        <circle
+          className="s1-target-dot"
+          cx="1272"
+          cy="272"
+          r="14"
+          fill={palette.accent}
+        />
       </CoordinateOverlay>
 
-      <div style={{ position: 'relative', zIndex: 4 }}>
-        <EyebrowPill className="s1-reveal" $bg={palette.container} $fg={palette.primary}>
-          Seção 01 • Ergonomia Motora e Cognitiva
+      <div style={{ position: "relative", zIndex: 4 }}>
+        <EyebrowPill
+          className="s1-reveal"
+          $bg={palette.container}
+          $fg={palette.primary}
+        >
+          Seção 01 • Psicologia e Usabilidade
         </EyebrowPill>
       </div>
 
@@ -151,8 +187,8 @@ export const Slide1_1_Cover: React.FC = () => {
           01. Leis Matemáticas da Usabilidade
         </HeroDisplay>
         <SlideSubtitle className="s1-reveal" $color={palette.muted}>
-          Tempo de clique, sobrecarga de escolha, hábitos consolidados e limites da memória humana
-          obedecem a equações previsíveis.
+          A facilidade para clicar, escolher, lembrar e entender uma tela não é
+          questão de gosto pessoal, ela segue padrões humanos previsíveis.
         </SlideSubtitle>
       </CoverContent>
     </SlideCanvas>

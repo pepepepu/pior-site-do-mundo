@@ -1,19 +1,25 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { FiAlertCircle, FiCheckCircle, FiCompass, FiLayers, FiZap } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { CrossfadeSlot } from '../../components/CrossfadeSlot';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import {
+  FiAlertCircle,
+  FiCheckCircle,
+  FiCompass,
+  FiLayers,
+  FiZap,
+} from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { CrossfadeSlot } from "../../components/CrossfadeSlot";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   SlideCanvas,
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const StageBox = styled(TonalCard)`
   flex: 1;
@@ -86,29 +92,49 @@ const FooterMetrics = styled.div`
 `;
 
 const NOISY_OPTIONS = [
-  'React', 'Next.js', 'Vue', 'Svelte', 'Angular', 'Solid',
-  'Tailwind', 'Styled', 'Sass', 'GSAP', 'Framer', 'Three.js',
-  'Manhã', 'Tarde', 'Noite', 'Online', 'Presencial', 'Híbrido',
-  'Iniciante', 'Pleno', 'Sênior', 'Certificado', 'Gratuito', 'Projeto',
+  "Design",
+  "Programação",
+  "Dados",
+  "Jogos",
+  "Robótica",
+  "Segurança",
+  "Oficina",
+  "Palestra",
+  "Mesa redonda",
+  "Minicurso",
+  "Laboratório",
+  "Auditório",
+  "Manhã",
+  "Tarde",
+  "Noite",
+  "Online",
+  "Presencial",
+  "Híbrido",
+  "Iniciante",
+  "Intermediário",
+  "Avançado",
+  "Certificado",
+  "Gratuito",
+  "Com vaga",
 ];
 
 const ESSENTIAL_STEPS = [
   {
-    step: 'Passo 1 de 3',
-    title: 'Escolha sua trilha',
-    desc: 'Apenas 3 caminhos principais visíveis na primeira decisão.',
+    step: "Passo 1 de 3",
+    title: "Escolha o tema",
+    desc: "Mostre apenas os 3 caminhos principais na primeira tela.",
     icon: FiCompass,
   },
   {
-    step: 'Passo 2 de 3',
-    title: 'Defina seu nível',
-    desc: 'Detalhes avançados só aparecem quando realmente importam.',
+    step: "Passo 2 de 3",
+    title: "Qual seu nível?",
+    desc: "Peça detalhes só no momento em que eles realmente importam.",
     icon: FiLayers,
   },
   {
-    step: 'Passo 3 de 3',
-    title: 'Confirme o horário',
-    desc: 'Revelação progressiva reduz a paralisia de análise pela metade.',
+    step: "Passo 3 de 3",
+    title: "Melhor horário",
+    desc: "Dividir em etapas deixa a escolha muito mais rápida e leve.",
     icon: FiZap,
   },
 ];
@@ -120,45 +146,45 @@ export const Slide1_3_Hick: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.hick-header', {
+      gsap.from(".hick-header", {
         y: 32,
         opacity: 0,
         duration: 0.65,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
-      gsap.from('.hick-noisy', {
+      gsap.from(".hick-noisy", {
         scale: 0.82,
         opacity: 0,
         duration: 0.6,
-        stagger: { amount: 0.28, from: 'random' },
-        ease: 'power4.out',
+        stagger: { amount: 0.28, from: "random" },
+        ease: "power4.out",
       });
 
-      gsap.set('.hick-clean', { y: 48, scale: 0.92, opacity: 0 });
+      gsap.set(".hick-clean", { y: 48, scale: 0.92, opacity: 0 });
 
       const tl = gsap.timeline({ paused: true });
       tl.to(
-        '.hick-noisy',
+        ".hick-noisy",
         {
           scale: 0.45,
           opacity: 0,
           duration: 0.52,
-          stagger: { amount: 0.24, from: 'center' },
-          ease: 'power3.inOut',
+          stagger: { amount: 0.24, from: "center" },
+          ease: "power3.inOut",
         },
-        0
+        0,
       ).to(
-        '.hick-clean',
+        ".hick-clean",
         {
           y: 0,
           scale: 1,
           opacity: 1,
           duration: 0.78,
           stagger: 0.1,
-          ease: 'power4.out',
+          ease: "power4.out",
         },
-        0.38
+        0.38,
       );
 
       demoTlRef.current = tl;
@@ -171,20 +197,24 @@ export const Slide1_3_Hick: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="hick-header" $bg={palette.container} $fg={palette.primary}>
-            Lei de Hick • T = b · log₂(n + 1)
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="hick-header"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Lei de Hick • O peso das escolhas
           </EyebrowPill>
           <SlideTitle className="hick-header">
-            Excesso de opções paralisa a tomada de decisão
+            Opções demais travam quem está usando o site
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="hick-header"
           active={isFixed}
-          badText="24 filtros competindo ao mesmo tempo"
-          goodText="Progressive Disclosure em 3 passos"
+          badText="24 opções jogadas de uma vez"
+          goodText="Guiado em 3 passos simples"
           badIcon={<FiAlertCircle size={18} />}
           goodIcon={<FiCheckCircle size={18} />}
           badBg={palette.dangerContainer}
@@ -203,7 +233,9 @@ export const Slide1_3_Hick: React.FC = () => {
               $bg={idx % 3 === 0 ? palette.dangerContainer : palette.container}
               $fg={idx % 3 === 0 ? palette.dangerInk : palette.ink}
             >
-              <span style={{ fontSize: 12, opacity: 0.65 }}>Opção {idx + 1}</span>
+              <span style={{ fontSize: 12, opacity: 0.65 }}>
+                Filtro {idx + 1}
+              </span>
               <span>{item}</span>
             </NoisyChip>
           ))}
@@ -220,21 +252,45 @@ export const Slide1_3_Hick: React.FC = () => {
                 $bg={isHero ? palette.primary : palette.container}
                 $fg={isHero ? palette.onPrimary : palette.ink}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
                   <IconCircle
-                    $bg={isHero ? 'rgba(255,255,255,0.18)' : palette.surfaceLowest}
+                    $bg={
+                      isHero ? "rgba(255,255,255,0.18)" : palette.surfaceLowest
+                    }
                     $fg={isHero ? palette.onPrimary : palette.primary}
                   >
                     <Icon size={26} />
                   </IconCircle>
-                  <span style={{ fontSize: 14, fontWeight: 700, opacity: 0.8 }}>{card.step}</span>
+                  <span style={{ fontSize: 14, fontWeight: 700, opacity: 0.8 }}>
+                    {card.step}
+                  </span>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  <h3 style={{ fontSize: 'clamp(1.5rem, 2.2vw, 2.1rem)', fontWeight: 800, lineHeight: 1.1 }}>
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 10 }}
+                >
+                  <h3
+                    style={{
+                      fontSize: "clamp(1.5rem, 2.2vw, 2.1rem)",
+                      fontWeight: 800,
+                      lineHeight: 1.1,
+                    }}
+                  >
                     {card.title}
                   </h3>
-                  <p style={{ fontSize: 16, lineHeight: 1.45, opacity: isHero ? 0.9 : 0.78 }}>
+                  <p
+                    style={{
+                      fontSize: 16,
+                      lineHeight: 1.45,
+                      opacity: isHero ? 0.9 : 0.78,
+                    }}
+                  >
                     {card.desc}
                   </p>
                 </div>
@@ -247,8 +303,8 @@ export const Slide1_3_Hick: React.FC = () => {
       <FooterMetrics className="hick-header">
         <AnimatedStateChip
           active={isFixed}
-          badText="n = 24 opções simultâneas • 4,64 bits de entropia"
-          goodText="n = 3 escolhas por etapa • 2,00 bits de entropia"
+          badText="24 escolhas ao mesmo tempo • muita dúvida na tela"
+          goodText="3 escolhas por etapa • foco total no essencial"
           badBg={palette.dangerContainer}
           badFg={palette.dangerInk}
           goodBg={palette.container}
@@ -259,12 +315,12 @@ export const Slide1_3_Hick: React.FC = () => {
           active={isFixed}
           bad={
             <EyebrowPill $bg={palette.danger} $fg={palette.onPrimary}>
-              Tempo médio de decisão: ~720 ms
+              Decisão mais lenta e cansativa
             </EyebrowPill>
           }
           good={
             <EyebrowPill $bg={palette.primary} $fg={palette.onPrimary}>
-              Tempo médio de decisão: ~310 ms (-57%)
+              Decisão até 57% mais rápida
             </EyebrowPill>
           }
         />

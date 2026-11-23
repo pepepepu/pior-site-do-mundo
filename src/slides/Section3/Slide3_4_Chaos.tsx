@@ -1,11 +1,17 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { FiAlertTriangle, FiCheckCircle, FiImage, FiLock, FiShield } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { CrossfadeSlot } from '../../components/CrossfadeSlot';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import {
+  FiAlertTriangle,
+  FiCheckCircle,
+  FiImage,
+  FiLock,
+  FiShield,
+} from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { CrossfadeSlot } from "../../components/CrossfadeSlot";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   MetricBadge,
@@ -13,8 +19,8 @@ import {
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const Grid = styled.div`
   flex: 1;
@@ -60,7 +66,7 @@ const AvatarBox = styled.div`
   border-radius: 24px;
   display: grid;
   place-items: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 22px;
   font-weight: 800;
   flex-shrink: 0;
@@ -123,7 +129,7 @@ const ChipsLayer = styled.div`
 `;
 
 const GIANT_WORD =
-  'SupercalifragilisticexpialidociousArquiteturaDistribuidaSEMACLAWD2026SemNenhumEspaco';
+  "PalavraGiganteSemNenhumEspacoQueAlguemColouSemQuererNoFormularioDaSEMAC2026";
 
 export const Slide3_4_Chaos: React.FC = () => {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -132,82 +138,82 @@ export const Slide3_4_Chaos: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.s34-in', {
+      gsap.from(".s34-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
-      gsap.set('.chaos-title-bad', { opacity: 1, x: 0 });
-      gsap.set('.chaos-title-good', { opacity: 0, y: 10 });
-      gsap.set('.chaos-good-chip', { opacity: 0, y: 12, scale: 0.92 });
+      gsap.set(".chaos-title-bad", { opacity: 1, x: 0 });
+      gsap.set(".chaos-title-good", { opacity: 0, y: 10 });
+      gsap.set(".chaos-good-chip", { opacity: 0, y: 12, scale: 0.92 });
 
       const tl = gsap.timeline({ paused: true });
       tl.to(
-        '.chaos-avatar',
+        ".chaos-avatar",
         {
           backgroundColor: palette.primary,
           color: palette.onPrimary,
           duration: 0.55,
-          ease: 'power3.inOut',
+          ease: "power3.inOut",
         },
-        0
+        0,
       )
         .to(
-          '.chaos-title-bad',
+          ".chaos-title-bad",
           {
             opacity: 0,
             x: 18,
             duration: 0.42,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0
+          0,
         )
         .to(
-          '.chaos-title-good',
+          ".chaos-title-good",
           {
             opacity: 1,
             y: 0,
             duration: 0.52,
-            ease: 'power4.out',
+            ease: "power4.out",
           },
-          0.2
+          0.2,
         )
         .to(
-          '.chaos-dup-chip',
+          ".chaos-dup-chip",
           {
             opacity: 0,
             scale: 0.8,
             y: -8,
             stagger: 0.04,
             duration: 0.42,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0
+          0,
         )
         .to(
-          '.chaos-good-chip',
+          ".chaos-good-chip",
           {
             opacity: 1,
             scale: 1,
             y: 0,
             stagger: 0.08,
             duration: 0.58,
-            ease: 'power4.out',
+            ease: "power4.out",
           },
-          0.28
+          0.28,
         )
         .to(
-          '.chaos-metric-card',
+          ".chaos-metric-card",
           {
             backgroundColor: palette.primary,
             color: palette.onPrimary,
             duration: 0.55,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0.1
+          0.1,
         );
 
       demoTlRef.current = tl;
@@ -220,20 +226,24 @@ export const Slide3_4_Chaos: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="s34-in" $bg={palette.container} $fg={palette.primary}>
-            Edge Cases &amp; Engenharia Defensiva
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="s34-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Imprevistos do Dia a Dia
           </EyebrowPill>
           <SlideTitle className="s34-in">
-            Quando o caos real atinge um card em produção
+            Quando algo inesperado acontece na tela
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="s34-in"
           active={isFixed}
-          badText="Texto vazando + imagem 404 + 5 duplicados"
-          goodText="Clamp + fallback elegante + trava idempotente"
+          badText="Texto vazando, foto quebrada e 5 envios"
+          goodText="Texto contido, iniciais na foto e envio único"
           badIcon={<FiAlertTriangle size={18} />}
           goodIcon={<FiShield size={18} />}
           badBg={palette.dangerContainer}
@@ -244,12 +254,20 @@ export const Slide3_4_Chaos: React.FC = () => {
       </SlideHeader>
 
       <Grid>
-        <DemoCardWrap className="s34-in" $bg={palette.container} $radius="38px" $padding="32px">
+        <DemoCardWrap
+          className="s34-in"
+          $bg={palette.container}
+          $radius="38px"
+          $padding="32px"
+        >
           <ProjectSurface $bg={palette.surfaceLowest}>
             <HeaderRow>
               <AvatarBox
                 className="chaos-avatar"
-                style={{ backgroundColor: palette.dangerContainer, color: palette.dangerInk }}
+                style={{
+                  backgroundColor: palette.dangerContainer,
+                  color: palette.dangerInk,
+                }}
               >
                 <CrossfadeSlot
                   inline
@@ -262,10 +280,16 @@ export const Slide3_4_Chaos: React.FC = () => {
 
               <TextColumn>
                 <TitleViewport>
-                  <OverflowTitle className="chaos-title-bad" style={{ color: palette.dangerInk }}>
+                  <OverflowTitle
+                    className="chaos-title-bad"
+                    style={{ color: palette.dangerInk }}
+                  >
                     {GIANT_WORD}
                   </OverflowTitle>
-                  <ClampedTitle className="chaos-title-good" style={{ color: palette.ink }}>
+                  <ClampedTitle
+                    className="chaos-title-good"
+                    style={{ color: palette.ink }}
+                  >
                     {GIANT_WORD}
                   </ClampedTitle>
                 </TitleViewport>
@@ -273,13 +297,25 @@ export const Slide3_4_Chaos: React.FC = () => {
                 <CrossfadeSlot
                   active={isFixed}
                   bad={
-                    <span style={{ fontSize: 15, fontWeight: 600, color: palette.danger }}>
-                      Avatar 404 quebrado • texto sem espaço vazando fora do card
+                    <span
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 600,
+                        color: palette.danger,
+                      }}
+                    >
+                      Foto não carregou e o texto sem espaço escapou do cartão
                     </span>
                   }
                   good={
-                    <span style={{ fontSize: 15, fontWeight: 600, color: palette.primary }}>
-                      Avatar 404 convertido para iniciais EP • texto contido em 2 linhas
+                    <span
+                      style={{
+                        fontSize: 15,
+                        fontWeight: 600,
+                        color: palette.primary,
+                      }}
+                    >
+                      Iniciais no lugar da foto e texto organizado em 2 linhas
                     </span>
                   }
                 />
@@ -295,17 +331,25 @@ export const Slide3_4_Chaos: React.FC = () => {
                     $bg={palette.dangerContainer}
                     $fg={palette.dangerInk}
                   >
-                    Envio duplicado #{n}
+                    Envio repetido #{n}
                   </EyebrowPill>
                 ))}
               </ChipsLayer>
 
               <ChipsLayer>
-                <EyebrowPill className="chaos-good-chip" $bg={palette.primary} $fg={palette.onPrimary}>
+                <EyebrowPill
+                  className="chaos-good-chip"
+                  $bg={palette.primary}
+                  $fg={palette.onPrimary}
+                >
                   <FiCheckCircle size={15} />
                   <span>1 inscrição confirmada</span>
                 </EyebrowPill>
-                <EyebrowPill className="chaos-good-chip" $bg={palette.container} $fg={palette.ink}>
+                <EyebrowPill
+                  className="chaos-good-chip"
+                  $bg={palette.container}
+                  $fg={palette.ink}
+                >
                   <FiLock size={15} />
                   <span>4 cliques repetidos bloqueados</span>
                 </EyebrowPill>
@@ -314,8 +358,9 @@ export const Slide3_4_Chaos: React.FC = () => {
           </ProjectSurface>
 
           <p style={{ fontSize: 15.5, color: palette.muted, fontWeight: 500 }}>
-            Palavra gigante sem espaços, URL de imagem quebrada e usuário clicando 5 vezes seguidas
-            no mesmo botão devem ser tratados por padrão.
+            Nomes enormes sem espaço, fotos que falham ao carregar e vários
+            cliques seguidos no mesmo botão acontecem todo dia e precisam ser
+            previstos.
           </p>
         </DemoCardWrap>
 
@@ -324,37 +369,78 @@ export const Slide3_4_Chaos: React.FC = () => {
           $bg={palette.surfaceLowest}
           $radius="36px"
           $padding="26px"
-          style={{ display: 'flex', flexDirection: 'column', gap: 16, minWidth: 0 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            minWidth: 0,
+          }}
         >
           <MetricBadge $bg={palette.surface} $fg={palette.ink}>
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}>Quebra de texto</span>
+            <span
+              style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}
+            >
+              Texto gigante
+            </span>
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 26, fontWeight: 800, color: palette.danger }}>
-                  Overflow
+                <strong
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: 26,
+                    fontWeight: 800,
+                    color: palette.danger,
+                  }}
+                >
+                  Vaza da tela
                 </strong>
               }
               good={
-                <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 26, fontWeight: 800, color: palette.primary }}>
-                  Line-clamp 2
+                <strong
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: 26,
+                    fontWeight: 800,
+                    color: palette.primary,
+                  }}
+                >
+                  Cabe em 2 linhas
                 </strong>
               }
             />
           </MetricBadge>
 
           <MetricBadge $bg={palette.surface} $fg={palette.ink}>
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}>Mídia 404</span>
+            <span
+              style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}
+            >
+              Foto que falhou
+            </span>
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 26, fontWeight: 800, color: palette.danger }}>
+                <strong
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: 26,
+                    fontWeight: 800,
+                    color: palette.danger,
+                  }}
+                >
                   Ícone quebrado
                 </strong>
               }
               good={
-                <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 26, fontWeight: 800, color: palette.primary }}>
-                  Monograma EP
+                <strong
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: 26,
+                    fontWeight: 800,
+                    color: palette.primary,
+                  }}
+                >
+                  Iniciais EP
                 </strong>
               }
             />
@@ -364,15 +450,35 @@ export const Slide3_4_Chaos: React.FC = () => {
             className="chaos-metric-card"
             $bg={palette.danger}
             $fg={palette.onPrimary}
-            style={{ marginTop: 'auto' }}
+            style={{ marginTop: "auto" }}
           >
             <span style={{ fontSize: 13.5, fontWeight: 600, opacity: 0.88 }}>
-              Requisições gravadas
+              Envios feitos
             </span>
             <CrossfadeSlot
               active={isFixed}
-              bad={<strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 36, fontWeight: 800 }}>5×</strong>}
-              good={<strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 36, fontWeight: 800 }}>1×</strong>}
+              bad={
+                <strong
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: 36,
+                    fontWeight: 800,
+                  }}
+                >
+                  5 vezes
+                </strong>
+              }
+              good={
+                <strong
+                  style={{
+                    fontFamily: "Plus Jakarta Sans",
+                    fontSize: 36,
+                    fontWeight: 800,
+                  }}
+                >
+                  1 vez
+                </strong>
+              }
             />
           </MetricBadge>
         </TonalCard>

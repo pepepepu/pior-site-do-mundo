@@ -1,11 +1,11 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef, useState } from 'react';
-import { FiAlertCircle, FiCheckCircle, FiZap } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { CrossfadeSlot } from '../../components/CrossfadeSlot';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef, useState } from "react";
+import { FiAlertCircle, FiCheckCircle, FiZap } from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { CrossfadeSlot } from "../../components/CrossfadeSlot";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   MetricBadge,
@@ -13,13 +13,13 @@ import {
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const DemoGrid = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1.35fr 0.65fr;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -54,8 +54,8 @@ const PulseWave = styled.div`
 `;
 
 const TactileOrb = styled.div`
-  width: 214px;
-  height: 214px;
+  width: 220px;
+  height: 220px;
   border-radius: 68px;
   display: flex;
   flex-direction: column;
@@ -106,25 +106,25 @@ export const Slide4_2_Doherty: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.s42-in', {
+      gsap.from(".s42-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
       const counter = { val: 1500 };
 
-      gsap.set('.doherty-orb', {
+      gsap.set(".doherty-orb", {
         backgroundColor: palette.dangerContainer,
         color: palette.dangerInk,
       });
-      gsap.set('.doherty-gauge', {
-        width: '100%',
+      gsap.set(".doherty-gauge", {
+        width: "100%",
         backgroundColor: palette.danger,
       });
-      gsap.set('.doherty-highlight-card', {
+      gsap.set(".doherty-highlight-card", {
         backgroundColor: palette.danger,
         color: palette.onPrimary,
       });
@@ -135,56 +135,56 @@ export const Slide4_2_Doherty: React.FC = () => {
         {
           val: 95,
           duration: 0.85,
-          ease: 'power3.inOut',
+          ease: "power3.inOut",
           onUpdate: () => setMsReadout(Math.round(counter.val)),
         },
-        0
+        0,
       )
         .to(
-          '.doherty-orb',
+          ".doherty-orb",
           {
             backgroundColor: palette.primary,
             color: palette.onPrimary,
             scale: 1.04,
             duration: 0.7,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0
+          0,
         )
         .to(
-          '.doherty-orb',
+          ".doherty-orb",
           {
             scale: 1,
             duration: 0.35,
-            ease: 'power2.out',
+            ease: "power2.out",
           },
-          0.7
+          0.7,
         )
         .to(
-          '.doherty-gauge',
+          ".doherty-gauge",
           {
-            width: '7.5%',
+            width: "7.5%",
             backgroundColor: palette.primary,
             duration: 0.85,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0
+          0,
         )
         .fromTo(
-          '.doherty-wave',
+          ".doherty-wave",
           { scale: 0.95, opacity: 0.85 },
-          { scale: 2.4, opacity: 0, duration: 0.85, ease: 'power4.out' },
-          0.2
+          { scale: 2.4, opacity: 0, duration: 0.85, ease: "power4.out" },
+          0.2,
         )
         .to(
-          '.doherty-highlight-card',
+          ".doherty-highlight-card",
           {
             backgroundColor: palette.primary,
             color: palette.onPrimary,
             duration: 0.6,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0.1
+          0.1,
         );
 
       demoTlRef.current = tl;
@@ -204,20 +204,24 @@ export const Slide4_2_Doherty: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="s42-in" $bg={palette.container} $fg={palette.primary}>
-            Limiar de Doherty • 400 ms
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="s42-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Tempo de Resposta • Regra de Doherty (0,4 s)
           </EyebrowPill>
           <SlideTitle className="s42-in">
-            Acima de 400 ms o cérebro sai do estado de fluxo
+            Quando demora demais, parece que o site travou
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="s42-in"
           active={isFixed}
-          badText="1.500 ms — Quebra de causalidade"
-          goodText="95 ms — Abaixo do Limiar de Doherty"
+          badText="1,5 segundo: espera longa e irritante"
+          goodText="Menos de 0,1 segundo: resposta na hora"
           badIcon={<FiAlertCircle size={18} />}
           goodIcon={<FiCheckCircle size={18} />}
           badBg={palette.dangerContainer}
@@ -228,37 +232,77 @@ export const Slide4_2_Doherty: React.FC = () => {
       </SlideHeader>
 
       <DemoGrid>
-        <TriggerStage className="s42-in" $bg={palette.surfaceLowest} $radius="38px" $padding="34px">
+        <TriggerStage
+          className="s42-in"
+          $bg={palette.surfaceLowest}
+          $radius="38px"
+          $padding="34px"
+        >
           <OrbArena>
             <PulseWave className="doherty-wave" />
             <TactileOrb className="doherty-orb">
               <FiZap size={32} />
-              <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 40, fontWeight: 800 }}>
+              <strong
+                style={{
+                  fontFamily: "Plus Jakarta Sans",
+                  fontSize: 38,
+                  fontWeight: 800,
+                }}
+              >
                 {msReadout} ms
               </strong>
+              <span style={{ fontSize: 13.5, fontWeight: 700, opacity: 0.85 }}>
+                ({(msReadout / 1000).toFixed(2).replace(".", ",")} s)
+              </span>
             </TactileOrb>
           </OrbArena>
 
-          <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16 }}>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: 12,
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                gap: 16,
+              }}
+            >
               <CrossfadeSlot
                 active={isFixed}
                 bad={
-                  <span style={{ fontSize: 16, fontWeight: 700, color: palette.dangerInk }}>
-                    Resposta atrasada: sensação de interface travada
+                  <span
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: palette.dangerInk,
+                    }}
+                  >
+                    Resposta demorada: dá vontade de clicar de novo
                   </span>
                 }
                 good={
-                  <span style={{ fontSize: 16, fontWeight: 700, color: palette.primary }}>
-                    Resposta imediata: sensação de manipulação direta
+                  <span
+                    style={{
+                      fontSize: 16,
+                      fontWeight: 700,
+                      color: palette.primary,
+                    }}
+                  >
+                    Resposta imediata: parece acender um interruptor
                   </span>
                 }
               />
 
               <AnimatedStateChip
                 active={isFixed}
-                badText="Latência: 1.500 ms"
-                goodText="Latência: 95 ms"
+                badText="Espera: 1,5 s"
+                goodText="Espera: 0,1 s"
                 badBg={palette.dangerContainer}
                 badFg={palette.dangerInk}
                 goodBg={palette.container}
@@ -268,15 +312,15 @@ export const Slide4_2_Doherty: React.FC = () => {
 
             <GaugeShell $bg={palette.container}>
               <GaugeBar className="doherty-gauge" />
-              <ThresholdPin $left="6.7%" $color={palette.ink} />
-              <ThresholdPin $left="26.7%" $color={palette.ink} />
+              <ThresholdPin $left="6.7\%" $color={palette.ink} />
+              <ThresholdPin $left="26.7\%" $color={palette.ink} />
             </GaugeShell>
 
             <ThresholdLegend style={{ color: palette.muted }}>
-              <span>0 ms</span>
-              <span>100 ms (Instantâneo)</span>
-              <span>400 ms (Doherty)</span>
-              <span>1.500 ms (Abandono)</span>
+              <span>0 s</span>
+              <span>0,1 s (Na hora)</span>
+              <span>0,4 s (Limite ideal)</span>
+              <span>1,5 s (Muito lento)</span>
             </ThresholdLegend>
           </div>
         </TriggerStage>
@@ -286,29 +330,51 @@ export const Slide4_2_Doherty: React.FC = () => {
           $bg={palette.container}
           $radius="36px"
           $padding="26px"
-          style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            minWidth: 0,
+          }}
         >
           <MetricBadge $bg={palette.surfaceLowest} $fg={palette.primary}>
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}>
-              0 a 100 ms
+            <span
+              style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}
+            >
+              Até 0,1 segundo
             </span>
-            <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 22, fontWeight: 800 }}>
-              Manipulação direta
+            <strong
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: 22,
+                fontWeight: 800,
+              }}
+            >
+              Parece instantâneo
             </strong>
             <span style={{ fontSize: 14, color: palette.muted }}>
-              A interface parece extensão física do dedo ou cursor.
+              Você clica e o resultado aparece na mesma hora, sem sensação de
+              espera.
             </span>
           </MetricBadge>
 
           <MetricBadge $bg={palette.surfaceLowest} $fg={palette.ink}>
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}>
-              Até 400 ms
+            <span
+              style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}
+            >
+              Até 0,4 segundo
             </span>
-            <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 22, fontWeight: 800 }}>
-              Limiar de Doherty
+            <strong
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: 22,
+                fontWeight: 800,
+              }}
+            >
+              Ritmo ideal
             </strong>
             <span style={{ fontSize: 14, color: palette.muted }}>
-              Produtividade alta sem o usuário perder a linha de raciocínio.
+              A pessoa continua concentrada sem perder a linha de raciocínio.
             </span>
           </MetricBadge>
 
@@ -316,33 +382,55 @@ export const Slide4_2_Doherty: React.FC = () => {
             className="doherty-highlight-card"
             $bg={palette.danger}
             $fg={palette.onPrimary}
-            style={{ marginTop: 'auto' }}
+            style={{ marginTop: "auto" }}
           >
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <span style={{ fontSize: 13.5, fontWeight: 600, opacity: 0.85 }}>
-                    Acima de 1.000 ms
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 4 }}
+                >
+                  <span
+                    style={{ fontSize: 13.5, fontWeight: 600, opacity: 0.85 }}
+                  >
+                    Acima de 1 segundo
                   </span>
-                  <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 22, fontWeight: 800 }}>
-                    Quebra de causalidade
+                  <strong
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: 22,
+                      fontWeight: 800,
+                    }}
+                  >
+                    Perda de atenção
                   </strong>
                   <span style={{ fontSize: 14, opacity: 0.9 }}>
-                    Usuário duvida do clique e dispara ações repetidas.
+                    Quem está usando acha que o clique falhou e aperta o botão
+                    várias vezes.
                   </span>
                 </div>
               }
               good={
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  <span style={{ fontSize: 13.5, fontWeight: 600, opacity: 0.85 }}>
-                    Dentro do orçamento
+                <div
+                  style={{ display: "flex", flexDirection: "column", gap: 4 }}
+                >
+                  <span
+                    style={{ fontSize: 13.5, fontWeight: 600, opacity: 0.85 }}
+                  >
+                    Dentro do limite ideal
                   </span>
-                  <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 22, fontWeight: 800 }}>
-                    Estado de fluxo mantido
+                  <strong
+                    style={{
+                      fontFamily: "Plus Jakarta Sans",
+                      fontSize: 22,
+                      fontWeight: 800,
+                    }}
+                  >
+                    Uso leve e fluido
                   </strong>
                   <span style={{ fontSize: 14, opacity: 0.9 }}>
-                    Feedback imediato reduz erros e acelera cada tarefa.
+                    A resposta rápida passa confiança e evita cliques repetidos
+                    por ansiedade.
                   </span>
                 </div>
               }

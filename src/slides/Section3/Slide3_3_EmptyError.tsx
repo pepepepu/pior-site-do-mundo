@@ -1,24 +1,29 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { FiAlertCircle, FiCheckCircle, FiInbox, FiRefreshCw } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { CrossfadeSlot } from '../../components/CrossfadeSlot';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import {
+  FiAlertCircle,
+  FiCheckCircle,
+  FiInbox,
+  FiRefreshCw,
+} from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { CrossfadeSlot } from "../../components/CrossfadeSlot";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   SlideCanvas,
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const TwoPanels = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -59,7 +64,7 @@ const RecoveryPill = styled.div<{ $bg: string; $fg: string }>`
   border-radius: 999px;
   background-color: ${({ $bg }) => $bg};
   color: ${({ $fg }) => $fg};
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 15px;
   font-weight: 700;
 `;
@@ -83,20 +88,42 @@ export const Slide3_3_EmptyError: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.s33-in', {
+      gsap.from(".s33-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
-      gsap.set('.s33-state-good', { opacity: 0, y: 20, scale: 0.96 });
+      gsap.set(".s33-state-good", { opacity: 0, y: 20, scale: 0.96 });
 
       const tl = gsap.timeline({ paused: true });
-      tl.to('.s33-state-bad', { opacity: 0, y: -16, scale: 0.96, duration: 0.5, ease: 'power3.inOut' }, 0)
-        .to('.s33-state-good', { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: 'power4.out' }, 0.2)
-        .to('.s33-input', { borderColor: palette.primary, duration: 0.55, ease: 'power3.inOut' }, 0.1);
+      tl.to(
+        ".s33-state-bad",
+        {
+          opacity: 0,
+          y: -16,
+          scale: 0.96,
+          duration: 0.5,
+          ease: "power3.inOut",
+        },
+        0,
+      )
+        .to(
+          ".s33-state-good",
+          { opacity: 1, y: 0, scale: 1, duration: 0.65, ease: "power4.out" },
+          0.2,
+        )
+        .to(
+          ".s33-input",
+          {
+            borderColor: palette.primary,
+            duration: 0.55,
+            ease: "power3.inOut",
+          },
+          0.1,
+        );
 
       demoTlRef.current = tl;
     }, rootRef);
@@ -108,20 +135,24 @@ export const Slide3_3_EmptyError: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="s33-in" $bg={palette.container} $fg={palette.primary}>
-            Empty State • Error State • Validação no onBlur
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="s33-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Tela Vazia, Mensagem de Erro e Formulários
           </EyebrowPill>
           <SlideTitle className="s33-in">
-            Transforme o vazio e o erro em caminhos de saída
+            Transforme o vazio e o erro em um próximo passo claro
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="s33-in"
           active={isFixed}
-          badText="Erro críptico + formulário impaciente"
-          goodText="Recuperação humana + validação calma"
+          badText="Erro confuso e formulário apressado"
+          goodText="Aviso humano e calma ao preencher"
           badIcon={<FiAlertCircle size={18} />}
           goodIcon={<FiCheckCircle size={18} />}
           badBg={palette.dangerContainer}
@@ -132,13 +163,26 @@ export const Slide3_3_EmptyError: React.FC = () => {
       </SlideHeader>
 
       <TwoPanels>
-        <Panel className="s33-in" $bg={palette.surfaceLowest} $radius="36px" $padding="30px">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 21, fontWeight: 800 }}>Lista de submissões</h3>
+        <Panel
+          className="s33-in"
+          $bg={palette.surfaceLowest}
+          $radius="36px"
+          $padding="30px"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{ fontSize: 21, fontWeight: 800 }}>
+              Lista de inscrições
+            </h3>
             <AnimatedStateChip
               active={isFixed}
-              badText="Erro 500 bruto"
-              goodText="Empty & Error humano"
+              badText="Erro técnico seco"
+              goodText="Aviso claro e útil"
               badBg={palette.dangerContainer}
               badFg={palette.dangerInk}
               goodBg={palette.container}
@@ -147,18 +191,35 @@ export const Slide3_3_EmptyError: React.FC = () => {
           </div>
 
           <LayeredStateHost>
-            <StateSurface className="s33-state-bad" $bg={palette.dangerContainer}>
-              <h4 style={{ fontSize: 22, fontWeight: 800, color: palette.dangerInk }}>
-                Erro 500 — Falha fatal na API
+            <StateSurface
+              className="s33-state-bad"
+              $bg={palette.dangerContainer}
+            >
+              <h4
+                style={{
+                  fontSize: 22,
+                  fontWeight: 800,
+                  color: palette.dangerInk,
+                }}
+              >
+                Erro 500: falha inesperada
               </h4>
-              <p style={{ fontSize: 15.5, color: palette.dangerInk, opacity: 0.85, lineHeight: 1.5 }}>
-                Uncaught TypeError: Cannot read properties of undefined (reading items). Resultado
-                retornado: lista vazia sem nenhuma orientação ou botão de retorno.
+              <p
+                style={{
+                  fontSize: 15.5,
+                  color: palette.dangerInk,
+                  opacity: 0.85,
+                  lineHeight: 1.5,
+                }}
+              >
+                Ocorreu um erro interno no sistema (código NULL_REF). A página
+                ficou vazia sem explicar o que houve nem oferecer uma forma de
+                continuar.
               </p>
             </StateSurface>
 
             <StateSurface className="s33-state-good" $bg={palette.surface}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                 <div
                   style={{
                     width: 56,
@@ -166,21 +227,25 @@ export const Slide3_3_EmptyError: React.FC = () => {
                     borderRadius: 20,
                     background: palette.container,
                     color: palette.primary,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                     flexShrink: 0,
                   }}
                 >
                   <FiInbox size={26} />
                 </div>
-                <h4 style={{ fontSize: 24, fontWeight: 800, color: palette.ink }}>
+                <h4
+                  style={{ fontSize: 24, fontWeight: 800, color: palette.ink }}
+                >
                   Não conseguimos buscar sua lista agora
                 </h4>
               </div>
-              <p style={{ fontSize: 16, lineHeight: 1.5, color: palette.muted }}>
-                O servidor oscilou por um instante, mas seus envios continuam seguros. Você pode
-                tentar de novo com um clique ou iniciar uma nova submissão.
+              <p
+                style={{ fontSize: 16, lineHeight: 1.5, color: palette.muted }}
+              >
+                A conexão oscilou por um instante, mas suas inscrições continuam
+                salvas. Você pode tentar de novo com um toque.
               </p>
               <RecoveryPill $bg={palette.primary} $fg={palette.onPrimary}>
                 <FiRefreshCw size={16} />
@@ -190,13 +255,26 @@ export const Slide3_3_EmptyError: React.FC = () => {
           </LayeredStateHost>
         </Panel>
 
-        <Panel className="s33-in" $bg={palette.container} $radius="36px" $padding="30px">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 21, fontWeight: 800 }}>Validação de formulário</h3>
+        <Panel
+          className="s33-in"
+          $bg={palette.container}
+          $radius="36px"
+          $padding="30px"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{ fontSize: 21, fontWeight: 800 }}>
+              Preenchimento de formulário
+            </h3>
             <AnimatedStateChip
               active={isFixed}
-              badText="Punindo ao digitar"
-              goodText="Apenas no onBlur"
+              badText="Reclamando ao digitar"
+              goodText="Só avisa ao terminar"
               badBg={palette.dangerContainer}
               badFg={palette.dangerInk}
               goodBg={palette.surfaceLowest}
@@ -204,8 +282,10 @@ export const Slide3_3_EmptyError: React.FC = () => {
             />
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <span style={{ fontSize: 15, fontWeight: 700 }}>Título do projeto (mín. 6 letras)</span>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+            <span style={{ fontSize: 15, fontWeight: 700 }}>
+              Nome do projeto (mínimo 6 letras)
+            </span>
             <InputBox className="s33-input" $bg={palette.surfaceLowest}>
               <CrossfadeSlot
                 active={isFixed}
@@ -216,8 +296,8 @@ export const Slide3_3_EmptyError: React.FC = () => {
 
             <AnimatedStateChip
               active={isFixed}
-              badText="Erro! Título inválido enquanto digita"
-              goodText="Validado no onBlur: pronto para enviar"
+              badText="Erro! Inválido enquanto você ainda digita"
+              goodText="Tudo certo ao sair do campo: pronto para enviar"
               badIcon={<FiAlertCircle size={15} />}
               goodIcon={<FiCheckCircle size={15} />}
               badBg={palette.dangerContainer}
@@ -228,8 +308,8 @@ export const Slide3_3_EmptyError: React.FC = () => {
           </div>
 
           <p style={{ fontSize: 15, lineHeight: 1.48, color: palette.muted }}>
-            Regra de ouro: elogie cedo, corrija tarde. Nunca grite vermelho antes de o usuário
-            terminar de preencher o campo.
+            Regra simples: elogie cedo e corrija só no final. Nunca acuse erro
+            em vermelho antes de a pessoa terminar de escrever.
           </p>
         </Panel>
       </TwoPanels>

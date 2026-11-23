@@ -1,11 +1,11 @@
-import gsap from 'gsap';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { FiCpu, FiMonitor } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { CrossfadeSlot } from '../../components/CrossfadeSlot';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { FiCpu, FiMonitor } from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { CrossfadeSlot } from "../../components/CrossfadeSlot";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   MetricBadge,
@@ -13,13 +13,13 @@ import {
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const Layout = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -57,37 +57,42 @@ export const Slide5_3_GpuCpu: React.FC = () => {
         phase: i * 0.25,
         speed: 0.7 + (i % 9) * 0.14,
         row: (i % 24) / 24,
-        radius: i % 3 === 0 ? '999px' : i % 3 === 1 ? '8px' : '4px',
-        bg: i % 3 === 0 ? palette.primary : i % 3 === 1 ? palette.accent : palette.ink,
+        radius: i % 3 === 0 ? "999px" : i % 3 === 1 ? "8px" : "4px",
+        bg:
+          i % 3 === 0
+            ? palette.primary
+            : i % 3 === 1
+              ? palette.accent
+              : palette.ink,
       })),
-    [palette.accent, palette.ink, palette.primary]
+    [palette.accent, palette.ink, palette.primary],
   );
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.s53-in', {
+      gsap.from(".s53-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
-      gsap.set('.fps-hero-card', {
+      gsap.set(".fps-hero-card", {
         backgroundColor: palette.danger,
         color: palette.onPrimary,
       });
 
       const tl = gsap.timeline({ paused: true });
       tl.to(
-        '.fps-hero-card',
+        ".fps-hero-card",
         {
           backgroundColor: palette.primary,
           color: palette.onPrimary,
           duration: 0.6,
-          ease: 'power3.inOut',
+          ease: "power3.inOut",
         },
-        0
+        0,
       );
 
       demoTlRef.current = tl;
@@ -124,15 +129,15 @@ export const Slide5_3_GpuCpu: React.FC = () => {
           const el = nodesRef.current[i];
           if (!el) continue;
           const p = particles[i];
-          const x = ((Math.sin(t * p.speed + p.phase) + 1) * 0.5) * w + 6;
+          const x = (Math.sin(t * p.speed + p.phase) + 1) * 0.5 * w + 6;
           const y = p.row * h + Math.cos(t * 1.5 + p.phase) * 14 + 6;
 
           if (isFixed) {
-            el.style.left = '0px';
-            el.style.top = '0px';
+            el.style.left = "0px";
+            el.style.top = "0px";
             el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
           } else {
-            el.style.transform = 'none';
+            el.style.transform = "none";
             el.style.left = `${x.toFixed(1)}px`;
             el.style.top = `${y.toFixed(1)}px`;
             if (i % 3 === 0) {
@@ -154,20 +159,24 @@ export const Slide5_3_GpuCpu: React.FC = () => {
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="s53-in" $bg={palette.container} $fg={palette.primary}>
-            Pipeline GPU vs. CPU • 240 formas em movimento real
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="s53-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Fluidez na Tela • 240 formas em movimento ao vivo
           </EyebrowPill>
           <SlideTitle className="s53-in">
-            Anime transform na GPU e evite reflow na CPU
+            Deixe a placa de vídeo cuidar das animações
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="s53-in"
           active={isFixed}
-          badText="CPU: animando top / left com Reflow"
-          goodText="GPU: transform: translate3d() fluido"
+          badText="Jeito pesado: travando o processador"
+          goodText="Jeito leve: liso na placa de vídeo"
           badIcon={<FiCpu size={18} />}
           goodIcon={<FiMonitor size={18} />}
           badBg={palette.dangerContainer}
@@ -178,7 +187,13 @@ export const Slide5_3_GpuCpu: React.FC = () => {
       </SlideHeader>
 
       <Layout>
-        <SwarmCard ref={arenaRef} className="s53-in" $bg={palette.surfaceLowest} $radius="38px" $padding="0">
+        <SwarmCard
+          ref={arenaRef}
+          className="s53-in"
+          $bg={palette.surfaceLowest}
+          $radius="38px"
+          $padding="0"
+        >
           {particles.map((p, idx) => (
             <SwarmItem
               key={idx}
@@ -199,42 +214,106 @@ export const Slide5_3_GpuCpu: React.FC = () => {
           $bg={palette.container}
           $radius="36px"
           $padding="26px"
-          style={{ display: 'flex', flexDirection: 'column', gap: 16 }}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 16,
+            minWidth: 0,
+          }}
         >
-          <MetricBadge className="fps-hero-card" $bg={palette.danger} $fg={palette.onPrimary}>
-            <span style={{ fontSize: 14, fontWeight: 600, opacity: 0.88 }}>Taxa real ao vivo</span>
-            <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 54, fontWeight: 800, lineHeight: 1 }}>
+          <MetricBadge
+            className="fps-hero-card"
+            $bg={palette.danger}
+            $fg={palette.onPrimary}
+          >
+            <span style={{ fontSize: 14, fontWeight: 600, opacity: 0.88 }}>
+              Quadros por segundo
+            </span>
+            <strong
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: 54,
+                fontWeight: 800,
+                lineHeight: 1,
+              }}
+            >
               {fps} fps
             </strong>
           </MetricBadge>
 
           <MetricBadge $bg={palette.surfaceLowest} $fg={palette.ink}>
-            <span style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}>
-              Tempo por frame
+            <span
+              style={{ fontSize: 13.5, fontWeight: 600, color: palette.muted }}
+            >
+              Tempo de cada quadro
             </span>
-            <strong style={{ fontFamily: 'Plus Jakarta Sans', fontSize: 32, fontWeight: 800 }}>
+            <strong
+              style={{
+                fontFamily: "Plus Jakarta Sans",
+                fontSize: 32,
+                fontWeight: 800,
+              }}
+            >
               {frameMs} ms
             </strong>
           </MetricBadge>
 
-          <MetricBadge $bg={palette.surfaceLowest} $fg={palette.ink} style={{ flex: 1, justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 13.5, fontWeight: 700, color: palette.primary }}>
-              Etapas do navegador ativas
+          <MetricBadge
+            $bg={palette.surfaceLowest}
+            $fg={palette.ink}
+            style={{ flex: 1, justifyContent: "space-between" }}
+          >
+            <span
+              style={{
+                fontSize: 13.5,
+                fontWeight: 700,
+                color: palette.primary,
+              }}
+            >
+              Trabalho do navegador
             </span>
             <CrossfadeSlot
               active={isFixed}
               bad={
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 15, fontWeight: 700 }}>
-                  <span style={{ color: palette.danger }}>Layout / Reflow: Ativo (gargalo)</span>
-                  <span style={{ color: palette.danger }}>Paint: Ativo</span>
-                  <span style={{ color: palette.primary }}>Composite (GPU): Ativo</span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                    fontSize: 15,
+                    fontWeight: 700,
+                  }}
+                >
+                  <span style={{ color: palette.danger }}>
+                    Recalcular posições: Ativo (pesado)
+                  </span>
+                  <span style={{ color: palette.danger }}>
+                    Redesenhar tela: Ativo
+                  </span>
+                  <span style={{ color: palette.primary }}>
+                    Mover na placa de vídeo: Ativo
+                  </span>
                 </div>
               }
               good={
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 15, fontWeight: 700 }}>
-                  <span style={{ color: palette.muted }}>Layout / Reflow: Ignorado</span>
-                  <span style={{ color: palette.muted }}>Paint: Ignorado</span>
-                  <span style={{ color: palette.primary }}>Composite (GPU): 100% acelerado</span>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 8,
+                    fontSize: 15,
+                    fontWeight: 700,
+                  }}
+                >
+                  <span style={{ color: palette.muted }}>
+                    Recalcular posições: Pulado
+                  </span>
+                  <span style={{ color: palette.muted }}>
+                    Redesenhar tela: Pulado
+                  </span>
+                  <span style={{ color: palette.primary }}>
+                    Mover na placa de vídeo: 100% leve
+                  </span>
                 </div>
               }
             />

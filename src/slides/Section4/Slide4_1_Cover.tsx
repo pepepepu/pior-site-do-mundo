@@ -1,14 +1,19 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { EyebrowPill, HeroDisplay, SlideCanvas, SlideSubtitle } from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import {
+  EyebrowPill,
+  HeroDisplay,
+  SlideCanvas,
+  SlideSubtitle,
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const CoverGrid = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1.08fr 0.92fr;
+  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   align-items: center;
   gap: 32px;
   position: relative;
@@ -35,15 +40,15 @@ export const Slide4_1_Cover: React.FC = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
-      tl.from('.s4-spring-cord', {
+      tl.from(".s4-spring-cord", {
         scaleY: 0,
-        transformOrigin: 'top center',
+        transformOrigin: "top center",
         duration: 0.72,
         stagger: 0.1,
-        ease: 'power3.out',
+        ease: "power3.out",
       })
         .from(
-          '.s4-body',
+          ".s4-body",
           {
             y: -360,
             scaleX: 0.72,
@@ -51,29 +56,29 @@ export const Slide4_1_Cover: React.FC = () => {
             opacity: 0,
             duration: 1.4,
             stagger: 0.12,
-            ease: 'elastic.out(1, 0.38)',
+            ease: "elastic.out(1, 0.38)",
           },
-          0.08
+          0.08,
         )
         .from(
-          '.s4-reveal',
+          ".s4-reveal",
           {
             y: 44,
             opacity: 0,
             duration: 0.85,
             stagger: 0.09,
-            ease: 'power4.out',
+            ease: "power4.out",
           },
-          0.16
+          0.16,
         );
 
-      gsap.to('.s4-bob', {
+      gsap.to(".s4-bob", {
         y: -18,
         duration: 2.3,
         repeat: -1,
         yoyo: true,
         stagger: 0.32,
-        ease: 'sine.inOut',
+        ease: "sine.inOut",
       });
     }, rootRef);
     return () => ctx.revert();
@@ -83,9 +88,13 @@ export const Slide4_1_Cover: React.FC = () => {
     <SlideCanvas ref={rootRef} $palette={palette}>
       <MaterialShapes palette={palette} variant="cover" />
 
-      <div style={{ position: 'relative', zIndex: 4 }}>
-        <EyebrowPill className="s4-reveal" $bg={palette.container} $fg={palette.primary}>
-          Seção 04 • Latência, Otimismo e Movimento
+      <div style={{ position: "relative", zIndex: 4 }}>
+        <EyebrowPill
+          className="s4-reveal"
+          $bg={palette.container}
+          $fg={palette.primary}
+        >
+          Seção 04 • Rapidez, Resposta e Movimento
         </EyebrowPill>
       </div>
 
@@ -95,8 +104,9 @@ export const Slide4_1_Cover: React.FC = () => {
             04. Tempo, Percepção e Física
           </HeroDisplay>
           <SlideSubtitle className="s4-reveal" $color={palette.muted}>
-            Velocidade percebida molda a confiança. Entenda o Limiar de Doherty, respostas
-            otimistas com rollback e curvas com inércia natural.
+            A sensação de rapidez importa tanto quanto a velocidade real. Veja
+            como o tempo de resposta e o movimento natural mudam a experiência
+            de usar um site.
           </SlideSubtitle>
         </TextCol>
 
@@ -141,12 +151,26 @@ export const Slide4_1_Cover: React.FC = () => {
           </g>
 
           <g className="s4-body s4-bob">
-            <rect x="242" y="342" width="136" height="136" rx="44" fill={palette.accent} />
+            <rect
+              x="242"
+              y="342"
+              width="136"
+              height="136"
+              rx="44"
+              fill={palette.accent}
+            />
             <circle cx="310" cy="410" r="24" fill={palette.surfaceLowest} />
           </g>
 
           <g className="s4-body s4-bob">
-            <rect x="380" y="160" width="130" height="84" rx="42" fill={palette.containerHigh} />
+            <rect
+              x="380"
+              y="160"
+              width="130"
+              height="84"
+              rx="42"
+              fill={palette.containerHigh}
+            />
             <circle cx="445" cy="202" r="18" fill={palette.primary} />
           </g>
         </PhysicsSvg>

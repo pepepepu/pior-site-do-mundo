@@ -1,9 +1,16 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { BrowserRouter, Navigate, Route, Routes, useNavigate, useParams } from 'react-router-dom';
-import styled from 'styled-components';
-import { slidesDeck } from './slides';
-import { GlobalStyles } from './styles/GlobalStyles';
+import React, { useEffect, useRef } from "react";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
+import styled from "styled-components";
+import gsap from "gsap";
+import { GlobalStyles } from "./styles/GlobalStyles";
+import { slidesDeck } from "./slides";
 
 const Viewport = styled.div<{ $bg: string }>`
   width: 100vw;
@@ -39,19 +46,24 @@ const PresentationRoute: React.FC = () => {
       const target = e.target as HTMLElement | null;
       const tag = target?.tagName;
       const isEditing =
-        tag === 'INPUT' ||
-        tag === 'TEXTAREA' ||
-        tag === 'SELECT' ||
+        tag === "INPUT" ||
+        tag === "TEXTAREA" ||
+        tag === "SELECT" ||
         Boolean(target?.isContentEditable);
 
       if (isEditing) return;
 
-      if (e.key === 'ArrowRight' && slideIndex < slidesDeck.length - 1) {
+      if (e.key === "ArrowRight") {
         e.preventDefault();
-        directionRef.current = 1;
         prevIndexRef.current = slideIndex;
-        navigate(`/slide/${slideIndex + 1}`);
-      } else if (e.key === 'ArrowLeft' && slideIndex > 0) {
+        if (slideIndex < slidesDeck.length - 1) {
+          directionRef.current = 1;
+          navigate(`/slide/${slideIndex + 1}`);
+        } else {
+          directionRef.current = -1;
+          navigate("/slide/1");
+        }
+      } else if (e.key === "ArrowLeft" && slideIndex > 0) {
         e.preventDefault();
         directionRef.current = -1;
         prevIndexRef.current = slideIndex;
@@ -59,8 +71,8 @@ const PresentationRoute: React.FC = () => {
       }
     };
 
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, [slideIndex, navigate]);
 
   useEffect(() => {
@@ -73,13 +85,19 @@ const PresentationRoute: React.FC = () => {
         gsap.fromTo(
           stageRef.current,
           { opacity: 0 },
-          { opacity: 1, duration: 0.65, ease: 'power3.out' }
+          { opacity: 1, duration: 0.65, ease: "power3.out" },
         );
       } else {
         gsap.fromTo(
           stageRef.current,
           { opacity: 0, x: dir * 52 },
-          { opacity: 1, x: 0, duration: 0.54, ease: 'power4.out', clearProps: 'transform' }
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.54,
+            ease: "power4.out",
+            clearProps: "transform",
+          },
         );
       }
     }, stageRef);
@@ -89,7 +107,7 @@ const PresentationRoute: React.FC = () => {
   }, [slideIndex]);
 
   const ActiveSlide = slidesDeck[slideIndex];
-  const shellBg = slideIndex === 0 ? '#FFFFFF' : '#F8F6F2';
+  const shellBg = slideIndex === 0 ? "#FFFFFF" : "#F8F6F2";
 
   return (
     <Viewport $bg={shellBg}>

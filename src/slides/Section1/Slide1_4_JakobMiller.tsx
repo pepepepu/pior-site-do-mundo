@@ -1,23 +1,23 @@
-import gsap from 'gsap';
-import React, { useEffect, useRef } from 'react';
-import { FiAlertCircle, FiCheckCircle } from 'react-icons/fi';
-import styled from 'styled-components';
-import { AnimatedStateChip } from '../../components/AnimatedStateChip';
-import { MaterialShapes } from '../../components/MaterialShapes';
-import { useSpaceTimeline } from '../../hooks/useSpaceTimeline';
+import gsap from "gsap";
+import React, { useEffect, useRef } from "react";
+import { FiAlertCircle, FiCheckCircle } from "react-icons/fi";
+import styled from "styled-components";
+import { AnimatedStateChip } from "../../components/AnimatedStateChip";
+import { MaterialShapes } from "../../components/MaterialShapes";
+import { useSpaceTimeline } from "../../hooks/useSpaceTimeline";
 import {
   EyebrowPill,
   SlideCanvas,
   SlideHeader,
   SlideTitle,
   TonalCard,
-} from '../../styles/MaterialSurface';
-import { materialPalettes } from '../../theme/materialPalettes';
+} from "../../styles/MaterialSurface";
+import { materialPalettes } from "../../theme/materialPalettes";
 
 const TwoColumns = styled.div`
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1.15fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: 24px;
   position: relative;
   z-index: 4;
@@ -55,7 +55,7 @@ const ActionPill = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: "Plus Jakarta Sans", sans-serif;
   font-size: 16px;
   font-weight: 700;
 `;
@@ -104,32 +104,38 @@ const ChunkCard = styled.div<{ $bg: string; $fg: string }>`
 `;
 
 const RAW_DATA = [
-  'Ana Clara',
-  'Matrícula 20240018',
-  'Sala Lab 03',
-  'Nota 9,8',
-  'Bloco CCET',
-  'Trilha UX',
-  'Horário 14h',
-  'Ciência da Computação',
-  'Status Aprovado',
-  'Artigo #412',
-  'Certificado 8h',
-  'Rede eduroam',
+  "Ana Clara",
+  "Matrícula 20240018",
+  "Sala Lab 03",
+  "Nota 9,8",
+  "Bloco CCET",
+  "Trilha UX",
+  "Horário 14h",
+  "Computação",
+  "Aprovado",
+  "Trabalho #412",
+  "Certificado 8h",
+  "Wi-Fi eduroam",
 ];
 
 const CHUNKS = [
   {
-    title: 'Participante',
-    rows: ['Ana Clara', 'Matrícula 20240018', 'Ciência da Computação'],
+    title: "Participante",
+    rows: ["Ana Clara", "Matrícula 20240018", "Computação"],
   },
   {
-    title: 'Submissão',
-    rows: ['Artigo #412', 'Trilha UX', 'Status Aprovado', 'Nota 9,8', 'Certificado 8h'],
+    title: "Inscrição",
+    rows: [
+      "Trabalho #412",
+      "Trilha UX",
+      "Aprovado",
+      "Nota 9,8",
+      "Certificado 8h",
+    ],
   },
   {
-    title: 'Localização',
-    rows: ['Bloco CCET', 'Sala Lab 03', 'Horário 14h', 'Rede eduroam'],
+    title: "Onde e quando",
+    rows: ["Bloco CCET", "Sala Lab 03", "Horário 14h", "Wi-Fi eduroam"],
   },
 ];
 
@@ -140,87 +146,97 @@ export const Slide1_4_JakobMiller: React.FC = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from('.jm-in', {
+      gsap.from(".jm-in", {
         y: 34,
         opacity: 0,
         duration: 0.7,
         stagger: 0.08,
-        ease: 'power4.out',
+        ease: "power4.out",
       });
 
-      gsap.set('.miller-chunk', { y: 38, scale: 0.92, opacity: 0 });
+      gsap.set(".miller-chunk", { y: 38, scale: 0.92, opacity: 0 });
 
       const tl = gsap.timeline({ paused: true });
       tl.to(
-        '.btn-save',
+        ".btn-save",
         {
-          left: '53%',
+          left: "53%",
           backgroundColor: palette.primary,
           color: palette.onPrimary,
           duration: 0.85,
-          ease: 'power3.inOut',
+          ease: "power3.inOut",
         },
-        0
+        0,
       )
         .to(
-          '.btn-cancel',
+          ".btn-cancel",
           {
-            left: '0%',
+            left: "0%",
             backgroundColor: palette.container,
             color: palette.ink,
             duration: 0.85,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0
+          0,
         )
         .to(
-          '.miller-raw',
+          ".miller-raw",
           {
             scale: 0.65,
             opacity: 0,
             duration: 0.45,
             stagger: 0.02,
-            ease: 'power3.inOut',
+            ease: "power3.inOut",
           },
-          0
+          0,
         )
         .to(
-          '.miller-chunk',
+          ".miller-chunk",
           {
             y: 0,
             scale: 1,
             opacity: 1,
             duration: 0.75,
             stagger: 0.09,
-            ease: 'power4.out',
+            ease: "power4.out",
           },
-          0.35
+          0.35,
         );
 
       demoTlRef.current = tl;
     }, rootRef);
     return () => ctx.revert();
-  }, [demoTlRef, palette.container, palette.ink, palette.onPrimary, palette.primary]);
+  }, [
+    demoTlRef,
+    palette.container,
+    palette.ink,
+    palette.onPrimary,
+    palette.primary,
+  ]);
 
   return (
     <SlideCanvas ref={rootRef} $palette={palette}>
       <MaterialShapes palette={palette} variant="ambient" />
 
       <SlideHeader>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          <EyebrowPill className="jm-in" $bg={palette.container} $fg={palette.primary}>
-            Lei de Jakob &amp; Lei de Miller (7 ± 2)
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <EyebrowPill
+            className="jm-in"
+            $bg={palette.container}
+            $fg={palette.primary}
+          >
+            Leis de Jakob &amp; Miller • Hábitos e Memória
           </EyebrowPill>
           <SlideTitle className="jm-in">
-            Respeite modelos mentais e agrupe a informação
+            Siga o que as pessoas já conhecem e agrupe os dados
           </SlideTitle>
         </div>
 
         <AnimatedStateChip
           className="jm-in"
           active={isFixed}
-          badText="Convenção invertida e dados soltos"
-          goodText="Padrão previsível e Chunking ativo"
+          badText="Botões trocados e dados soltos"
+          goodText="Padrão conhecido e organizado em grupos"
           badIcon={<FiAlertCircle size={18} />}
           goodIcon={<FiCheckCircle size={18} />}
           badBg={palette.dangerContainer}
@@ -231,8 +247,19 @@ export const Slide1_4_JakobMiller: React.FC = () => {
       </SlideHeader>
 
       <TwoColumns>
-        <SectionBlock className="jm-in" $bg={palette.container} $radius="36px" $padding="32px">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <SectionBlock
+          className="jm-in"
+          $bg={palette.container}
+          $radius="36px"
+          $padding="32px"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <h3 style={{ fontSize: 22, fontWeight: 800 }}>Lei de Jakob</h3>
             <AnimatedStateChip
               active={isFixed}
@@ -246,23 +273,40 @@ export const Slide1_4_JakobMiller: React.FC = () => {
           </div>
 
           <ModalMock $bg={palette.surfaceLowest}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              <h4 style={{ fontSize: 22, fontWeight: 800 }}>Salvar alterações no projeto?</h4>
-              <p style={{ fontSize: 15.5, lineHeight: 1.5, color: palette.muted }}>
-                Seus dados editados serão publicados imediatamente no sistema da SEMAC.
+            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+              <h4 style={{ fontSize: 22, fontWeight: 800 }}>
+                Salvar alterações no projeto?
+              </h4>
+              <p
+                style={{
+                  fontSize: 15.5,
+                  lineHeight: 1.5,
+                  color: palette.muted,
+                }}
+              >
+                Suas mudanças serão enviadas imediatamente para a inscrição na
+                SEMAC.
               </p>
             </div>
 
             <ActionsBar>
               <ActionPill
                 className="btn-save"
-                style={{ left: '0%', backgroundColor: palette.danger, color: '#FFFFFF' }}
+                style={{
+                  left: "0%",
+                  backgroundColor: palette.danger,
+                  color: "#FFFFFF",
+                }}
               >
                 Salvar alterações
               </ActionPill>
               <ActionPill
                 className="btn-cancel"
-                style={{ left: '53%', backgroundColor: palette.success, color: '#FFFFFF' }}
+                style={{
+                  left: "53%",
+                  backgroundColor: palette.success,
+                  color: "#FFFFFF",
+                }}
               >
                 Cancelar
               </ActionPill>
@@ -270,18 +314,31 @@ export const Slide1_4_JakobMiller: React.FC = () => {
           </ModalMock>
 
           <p style={{ fontSize: 15, lineHeight: 1.45, color: palette.muted }}>
-            Usuários passam a maior parte do tempo em outros apps: quebrar a posição e a cor das
-            ações principais gera cliques errados por reflexo.
+            As pessoas usam dezenas de apps todo dia. Trocar a cor e o lugar dos
+            botões faz qualquer um clicar errado no automático.
           </p>
         </SectionBlock>
 
-        <SectionBlock className="jm-in" $bg={palette.surfaceLowest} $radius="36px" $padding="32px">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <h3 style={{ fontSize: 22, fontWeight: 800 }}>Chunking de Miller</h3>
+        <SectionBlock
+          className="jm-in"
+          $bg={palette.surfaceLowest}
+          $radius="36px"
+          $padding="32px"
+        >
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <h3 style={{ fontSize: 22, fontWeight: 800 }}>
+              Lei de Miller (Agrupamento)
+            </h3>
             <AnimatedStateChip
               active={isFixed}
-              badText="12 itens misturados"
-              goodText="3 blocos semânticos"
+              badText="12 dados misturados"
+              goodText="3 grupos fáceis de ler"
               badBg={palette.dangerContainer}
               badFg={palette.dangerInk}
               goodBg={palette.container}
@@ -311,8 +368,19 @@ export const Slide1_4_JakobMiller: React.FC = () => {
                   $bg={idx === 1 ? palette.primary : palette.container}
                   $fg={idx === 1 ? palette.onPrimary : palette.ink}
                 >
-                  <h4 style={{ fontSize: 18, fontWeight: 800 }}>{group.title}</h4>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, fontSize: 14.5, fontWeight: 500, opacity: 0.92 }}>
+                  <h4 style={{ fontSize: 18, fontWeight: 800 }}>
+                    {group.title}
+                  </h4>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      fontSize: 14.5,
+                      fontWeight: 500,
+                      opacity: 0.92,
+                    }}
+                  >
                     {group.rows.map((row) => (
                       <span key={row}>{row}</span>
                     ))}
@@ -323,8 +391,8 @@ export const Slide1_4_JakobMiller: React.FC = () => {
           </MillerArea>
 
           <p style={{ fontSize: 15, lineHeight: 1.45, color: palette.muted }}>
-            Os mesmos 12 dados sem perder nenhuma informação — reorganizados em 3 grupos que o olho
-            escaneia em menos de 1 segundo.
+            Nossa memória guarda poucas coisas soltas de uma vez. Os mesmos 12
+            dados divididos em 3 grupos ficam fáceis de entender em segundos.
           </p>
         </SectionBlock>
       </TwoColumns>
