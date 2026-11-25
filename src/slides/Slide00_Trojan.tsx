@@ -1,7 +1,7 @@
-import gsap from 'gsap';
-import React, { useEffect, useId, useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import gsap from "gsap";
+import React, { useEffect, useId, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
 
 const BlankScreen = styled.main`
   width: 100vw;
@@ -14,19 +14,40 @@ const BlankScreen = styled.main`
   overflow: hidden;
 `;
 
+const RawStack = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 10;
+  will-change: transform, opacity;
+`;
+
 const ClassicLink = styled.a`
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   font-size: 20px;
   color: #0000ee;
   text-decoration: underline;
   cursor: pointer;
-  position: relative;
-  z-index: 10;
   display: inline-block;
-  will-change: transform, opacity;
 
   &:visited {
     color: #0000ee;
+  }
+`;
+
+const ClassicRecapButton = styled.button`
+  font-family: "Times New Roman", Times, serif;
+  font-size: 16px;
+  color: #000000;
+  background-color: #efefef;
+  border: 2px outset #999999;
+  padding: 4px 14px;
+  cursor: pointer;
+
+  &:active {
+    border-style: inset;
   }
 `;
 
@@ -47,7 +68,11 @@ const ConcentricSvg = styled.svg`
   overflow: visible;
 `;
 
-const buildScallop = (lobes: number, outerR: number, innerR: number): string => {
+const buildScallop = (
+  lobes: number,
+  outerR: number,
+  innerR: number,
+): string => {
   const segs: string[] = [];
   for (let i = 0; i < lobes * 2; i++) {
     const a1 = (i * Math.PI) / lobes;
@@ -63,10 +88,12 @@ const buildScallop = (lobes: number, outerR: number, innerR: number): string => 
     const x2 = Math.cos(a2) * r2;
     const y2 = Math.sin(a2) * r2;
     if (i === 0) segs.push(`M ${x1.toFixed(1)} ${y1.toFixed(1)}`);
-    segs.push(`Q ${qx.toFixed(1)} ${qy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`);
+    segs.push(
+      `Q ${qx.toFixed(1)} ${qy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`,
+    );
   }
-  segs.push('Z');
-  return segs.join(' ');
+  segs.push("Z");
+  return segs.join(" ");
 };
 
 const SCALLOP_STAR = buildScallop(10, 170, 142);
@@ -74,35 +101,38 @@ const SCALLOP_STAR = buildScallop(10, 170, 142);
 export const Slide00_Trojan: React.FC = () => {
   const navigate = useNavigate();
   const rootRef = useRef<HTMLDivElement>(null);
-  const linkRef = useRef<HTMLAnchorElement>(null);
-  const uid = useId().replace(/:/g, '');
-  const [launched, setLaunched] = useState(false);
+  const stackRef = useRef<HTMLDivElement>(null);
+  const uid = useId().replace(/:/g, "");
+  const [targetRoute, setTargetRoute] = useState<"/slide/1" | "/recap" | null>(
+    null,
+  );
 
   useEffect(() => {
-    if (!launched) return;
+    if (!targetRoute) return;
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
-        onComplete: () => navigate('/slide/1'),
+        onComplete: () =>
+          navigate(targetRoute, { state: { fromTrojan: true } }),
       });
 
-      tl.to(linkRef.current, {
+      tl.to(stackRef.current, {
         scale: 0.94,
         duration: 0.14,
-        ease: 'power2.out',
+        ease: "power2.out",
       })
-        .to(linkRef.current, {
+        .to(stackRef.current, {
           opacity: 0,
           scale: 0.9,
           duration: 0.28,
-          ease: 'power3.inOut',
+          ease: "power3.inOut",
         })
         .fromTo(
-          '.m3-concentric',
+          ".m3-concentric",
           {
             scale: 0,
             opacity: 0.96,
             rotation: (i) => i * 18 - 36,
-            transformOrigin: '50% 50%',
+            transformOrigin: "50% 50%",
           },
           {
             scale: 4.5,
@@ -110,52 +140,97 @@ export const Slide00_Trojan: React.FC = () => {
             rotation: (i) => i * 18 + 36,
             duration: 1.32,
             stagger: 0.09,
-            ease: 'power4.inOut',
+            ease: "power4.inOut",
           },
-          0.14
+          0.14,
         );
     }, rootRef);
     return () => ctx.revert();
-  }, [launched, navigate]);
+  }, [targetRoute, navigate]);
 
-  const handleLaunch = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleMainLaunch = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    if (!launched) setLaunched(true);
+    if (!targetRoute) setTargetRoute("/slide/1");
+  };
+
+  const handleRecapLaunch = () => {
+    if (!targetRoute) setTargetRoute("/recap");
   };
 
   return (
     <BlankScreen ref={rootRef}>
-      <ClassicLink ref={linkRef} href="/slide/1" onClick={handleLaunch}>
-        Enzo e Pedro te ensinam a fazer o pior site do mundo
-      </ClassicLink>
+      <RawStack ref={stackRef}>
+        <ClassicLink href="/slide/1" onClick={handleMainLaunch}>
+          Enzo e Pedro te ensinam a fazer o pior site do mundo
+        </ClassicLink>
+        <ClassicRecapButton type="button" onClick={handleRecapLaunch}>
+          RECAP!!!!!
+        </ClassicRecapButton>
+      </RawStack>
 
-      {launched && (
+      {targetRoute && (
         <ConcentricStage>
           <ConcentricSvg viewBox="-500 -500 1000 1000">
             <defs>
-              <linearGradient id={`g1-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient
+                id={`g1-${uid}`}
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="#4285F4" />
                 <stop offset="100%" stopColor="#0B57D0" />
               </linearGradient>
-              <linearGradient id={`g2-${uid}`} x1="0%" y1="100%" x2="100%" y2="0%">
+              <linearGradient
+                id={`g2-${uid}`}
+                x1="0%"
+                y1="100%"
+                x2="100%"
+                y2="0%"
+              >
                 <stop offset="0%" stopColor="#FF6D42" />
                 <stop offset="100%" stopColor="#EA4335" />
               </linearGradient>
-              <linearGradient id={`g3-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient
+                id={`g3-${uid}`}
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="#FDD663" />
                 <stop offset="100%" stopColor="#FBBC04" />
               </linearGradient>
-              <linearGradient id={`g4-${uid}`} x1="0%" y1="100%" x2="100%" y2="0%">
+              <linearGradient
+                id={`g4-${uid}`}
+                x1="0%"
+                y1="100%"
+                x2="100%"
+                y2="0%"
+              >
                 <stop offset="0%" stopColor="#34A853" />
                 <stop offset="100%" stopColor="#0F6D38" />
               </linearGradient>
-              <linearGradient id={`g5-${uid}`} x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient
+                id={`g5-${uid}`}
+                x1="0%"
+                y1="0%"
+                x2="100%"
+                y2="100%"
+              >
                 <stop offset="0%" stopColor="#F8F6F2" />
                 <stop offset="100%" stopColor="#F8F6F2" />
               </linearGradient>
             </defs>
 
-            <circle className="m3-concentric" cx="0" cy="0" r="165" fill={`url(#g1-${uid})`} />
+            <circle
+              className="m3-concentric"
+              cx="0"
+              cy="0"
+              r="165"
+              fill={`url(#g1-${uid})`}
+            />
             <rect
               className="m3-concentric"
               x="-160"
@@ -165,7 +240,11 @@ export const Slide00_Trojan: React.FC = () => {
               rx="96"
               fill={`url(#g2-${uid})`}
             />
-            <path className="m3-concentric" d={SCALLOP_STAR} fill={`url(#g3-${uid})`} />
+            <path
+              className="m3-concentric"
+              d={SCALLOP_STAR}
+              fill={`url(#g3-${uid})`}
+            />
             <rect
               className="m3-concentric"
               x="-155"
@@ -175,7 +254,13 @@ export const Slide00_Trojan: React.FC = () => {
               rx="118"
               fill={`url(#g4-${uid})`}
             />
-            <circle className="m3-concentric" cx="0" cy="0" r="175" fill={`url(#g5-${uid})`} />
+            <circle
+              className="m3-concentric"
+              cx="0"
+              cy="0"
+              r="175"
+              fill={`url(#g5-${uid})`}
+            />
           </ConcentricSvg>
         </ConcentricStage>
       )}
